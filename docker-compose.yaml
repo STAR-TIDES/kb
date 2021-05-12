@@ -1,0 +1,46 @@
+version: "3.3"
+services:
+  star-tides:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      FLASK_DEBUG: 1
+      PYTHONUNBUFFERED: 1
+    #env_file:
+    #  - .env
+    restart: always
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongodb_container
+    ports:
+      - 5000:5000
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      FLASK_DEBUG: 1
+      PYTHONUNBUFFERED: 1
+    restart: always
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongodb_container
+    ports:
+      - 5000:5000
+    command: bash -c "cd /app && pytest star_tides/tests/tests"
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: star_tides
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+volumes:
+  mongodb-data:

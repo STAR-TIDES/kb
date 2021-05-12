@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from star_tides.services.sql.database import db
 from mongoengine import connect
 from celery import Celery
 from star_tides.api.blueprint import bp

@@ -22,6 +22,4 @@ def gsignin():
 @auth.route('/sso/google', methods=["POST"])
 def auth_google_sign_in():
     response = GoogleSignInController().execute()
-    print(response)
     return response
-

@@ -12,4 +12,3 @@ google-auth
 requests
 pytest
 pylint
-pre-commit

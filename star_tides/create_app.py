@@ -10,9 +10,9 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET') or "secret_key"
 
     connect(
-        username='evan',
-        password='password',
-        host='mongodb://mongodb_container:27017/star_tides?authSource=star_tides'
+        username=os.getenv('MONGO_INITDB_ROOT_USERNAME'),
+        password=os.getenv('MONGO_INITDB_ROOT_PASSWORD'),
+        host='mongodb://mongodb_container:27017/star_tides?authSource=admin'
     )
 
     @app.route('/')

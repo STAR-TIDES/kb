@@ -4,11 +4,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    environment:
-      FLASK_DEBUG: 1
-      PYTHONUNBUFFERED: 1
-    #env_file:
-    #  - .env
+    env_file:
+      - .env
     restart: always
     volumes:
       - ./:/app
@@ -20,9 +17,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    environment:
-      FLASK_DEBUG: 1
-      PYTHONUNBUFFERED: 1
+    env_file:
+      - .env
     restart: always
     volumes:
       - ./:/app
@@ -33,14 +29,11 @@ services:
     command: bash -c "cd /app && pytest star_tides/tests/tests"
   mongodb_container:
     image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-      MONGO_INITDB_DATABASE: star_tides
+    env_file:
+      - .env
     ports:
       - 27017:27017
     volumes:
       - mongodb-data:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 volumes:
   mongodb-data:

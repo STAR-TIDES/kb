@@ -1,19 +1,9 @@
-import os
-# Redis.
-REDIS_URL = os.getenv('REDIS_URL', 'redis://redis:6379/0')
+''' star_tides.config.settings
 
-# SQLAlchemy
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@db:5432/postgres'
+Flask application settings.
+
+'''
+import os
 
 STATIC_FOLDER = '../app/dist/star-tides/'
-
-# Celery.
-CELERY_CONFIG = {
-    'broker_url': REDIS_URL,
-    'result_backend': REDIS_URL,
-    'include': [
-        'star_tides.core.tasks.test_action.add_numbers'
-    ]
-}
-
 CLIENT_ID = os.getenv('CLIENT_ID')

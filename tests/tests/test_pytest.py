@@ -1,5 +1,5 @@
 from star_tides.tests.fixtures.basic_user import basic_user
-from star_tides.services.mongo.models.UserModel import User
+from star_tides.services.mongo.models.user_model import User
 
 
 def test_basic_test(client, basic_user):

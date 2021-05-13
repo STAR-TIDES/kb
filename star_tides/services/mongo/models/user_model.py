@@ -1,3 +1,5 @@
+''' star_tides.services.mongo.models.user_model
+'''
 from mongoengine import Document, StringField, BinaryField
 
 

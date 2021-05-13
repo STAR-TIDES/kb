@@ -1,3 +1,6 @@
+''' Mongodb migration. May not be used.
+'''
+# pragma pylint: disable=invalid-name
 from mongodb_migrations.base import BaseMigration
 
 

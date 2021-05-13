@@ -2,7 +2,7 @@
 '''
 from star_tides.core.actions.base_action import Action
 from star_tides.core.actions.create_user_action import CreateUserAction
-from star_tides.services.mongo.models.UserModel import User
+from star_tides.services.mongo.models.user_model import User
 from star_tides.api.util.issue_jwt import create_jwt
 import bcrypt
 import string

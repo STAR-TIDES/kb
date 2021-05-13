@@ -1,3 +1,5 @@
+''' star_tides.api.util.issue_jwt
+'''
 import jwt
 import time
 from flask import current_app

@@ -1,13 +1,19 @@
+''' star_tides.create_app
+
+Contains application factory for the flask app.
+
+'''
 from flask import Flask, render_template
 from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
 import os
 
+
 def create_app():
     app = Flask(__name__, static_url_path='/static')
     app.config.from_object('star_tides.config.settings')
-    app.config['SECRET_KEY'] = os.environ.get('SECRET') or "secret_key"
+    app.config['SECRET_KEY'] = os.environ.get('SECRET') or 'secret_key'
 
     connect(
         username=os.getenv('MONGO_INITDB_ROOT_USERNAME'),

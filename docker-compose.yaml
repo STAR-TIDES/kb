@@ -25,8 +25,8 @@ services:
     depends_on:
       - mongodb_container
     ports:
-      - 5000:5000
-    command: bash -c "cd /app && pytest star_tides/tests/tests"
+      - 5001:5000
+    command: bash -c "cd /app && pytest -q star_tides/tests/tests"
   mongodb_container:
     image: mongo:latest
     env_file:

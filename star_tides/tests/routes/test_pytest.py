@@ -1,3 +1,7 @@
+''' star_tides.tests.tests.
+'''
+# pragma pylint: disable=W0621,W0613,W0611
+
 from star_tides.tests.fixtures.basic_user import basic_user
 from star_tides.services.mongo.models.user_model import User
 

@@ -2,10 +2,7 @@ flask
 psycopg2-binary
 sqlalchemy
 alembic
-flask_sqlalchemy
 flask-mongoengine
-mongodb-migrations
-celery[redis]
 bcrypt
 pyjwt
 google-auth

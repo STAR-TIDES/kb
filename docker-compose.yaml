@@ -26,7 +26,7 @@ services:
       - mongodb_container
     ports:
       - 5001:5000
-    command: bash -c "cd /app && pytest -q star_tides/tests/tests"
+    command: bash -c "cd /app && pytest -q star_tides/"
   mongodb_container:
     image: mongo:latest
     env_file:

@@ -1,0 +1,8 @@
+flask
+flask-mongoengine
+bcrypt
+pyjwt
+google-auth
+requests
+pytest
+pylint

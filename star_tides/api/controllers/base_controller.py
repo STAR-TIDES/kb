@@ -22,7 +22,7 @@ class Controller(metaclass=ABCMeta):
     The overridden `process_request` method should return a serialized response.
 
     Invocation:
-        response = ChildClass(*args, **kwargs).execute()
+        response = ChildClassController(*args, **kwargs).execute()
 
     Helper static methods:
 

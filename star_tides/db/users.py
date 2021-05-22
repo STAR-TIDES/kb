@@ -21,6 +21,16 @@ class User(NamedTuple):
     password_hash: Text
     privilege: UserPrivelege
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'contact_id': self.contact_id,
+            'username': self.username,
+            'login_email': self.login_email,
+            'password_hash': self.password_hash,
+            'privelege': str(self.privilege),
+        }
+
 
 class UsersCollection():
     '''

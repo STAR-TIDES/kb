@@ -4,15 +4,12 @@ from star_tides.core.actions.base_action import Action
 from star_tides.core.actions.create_user_action import CreateUserAction
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.api.util.issue_jwt import create_jwt
+from star_tides.utils.random_string import gen_rand_n_str
 import bcrypt
-import string
-import secrets
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from flask import current_app
-
-ALPHABET = string.ascii_letters + string.digits
 
 
 class LoginUserAction(Action):
@@ -38,7 +35,7 @@ class LoginUserAction(Action):
         self.password = password
         self.token = token
 
-    def run(self):
+    def run(self) -> (str, str):
         if self.username and self.password:
 
             password = self.password.encode('utf-8')
@@ -49,7 +46,8 @@ class LoginUserAction(Action):
                 print(f'{self.__class__.__name__} User not found')
 
             if bcrypt.checkpw(password, user.password):
-                return create_jwt(user.email)
+                # TODO create refresh token
+                return create_jwt(user.email), ''
             # TODO create a custom exception and raise it
             print(f'{self.__class__.__name__} Password not a match')
         elif self.token:
@@ -63,7 +61,8 @@ class LoginUserAction(Action):
             if email is None:
                 # TODO create a custom exception and raise it
                 print(f'{self.__class__.__name__} No email in claims: {email}')
-                return ''
+                # TODO: Remove return here in favor of a raised exception
+                return '', ''
 
             user = UserModel.objects(email=email).first()
 
@@ -75,7 +74,7 @@ class LoginUserAction(Action):
 
                 first_name = idinfo.get('given_name')
                 last_name =  idinfo.get('family_name')
-                password = ''.join(secrets.choice(ALPHABET) for i in range(16))
+                password = gen_rand_n_str(32)
                 CreateUserAction(
                     first_name,
                     last_name,
@@ -88,4 +87,4 @@ class LoginUserAction(Action):
                     # TODO create a custom exception and raise it
                     print('User failed to create')
 
-            return create_jwt(user.email)
+            return create_jwt(user.email), ''

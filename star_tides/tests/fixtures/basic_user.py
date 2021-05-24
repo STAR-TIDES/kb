@@ -2,7 +2,9 @@
 '''
 import pytest
 import bcrypt
-from star_tides.services.databases.mongo.models import UserModel
+from star_tides.services.databases.mongo.models.user_model import UserModel
+from star_tides.services.databases.mongo.schemas.user_schema import UserSchema
+from star_tides.utils.random_string import gen_rand_n_str
 
 
 @pytest.fixture()
@@ -13,10 +15,11 @@ def basic_user():
     created_users = []
 
     def _basic_user(
-            first_name='Test',
-            last_name='User',
-            email='test_user@example.com',
-            password='password'
+            first_name=f'Test-{gen_rand_n_str(3)}',
+            last_name=f'User-{gen_rand_n_str(3)}',
+            email=f'{gen_rand_n_str(8)}@example.com',
+            password='password',
+            kb_privilege=0
     ):
 
         password = password.encode('utf-8')
@@ -28,11 +31,14 @@ def basic_user():
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=h
+            password=h,
+            kb_privilege=kb_privilege
         )
         u.save()
 
         created_users.append(u)
+
+        return UserSchema().dump(u)
 
     yield _basic_user
 

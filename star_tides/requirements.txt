@@ -6,3 +6,4 @@ google-auth
 requests
 pytest
 pylint
+marshmallow_mongoengine

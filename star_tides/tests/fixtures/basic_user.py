@@ -2,7 +2,7 @@
 '''
 import pytest
 import bcrypt
-from star_tides.services.mongo.models.user_model import User
+from star_tides.services.databases.mongo.models import UserModel
 
 
 @pytest.fixture()
@@ -24,7 +24,7 @@ def basic_user():
         salt = bcrypt.gensalt()
         h = bcrypt.hashpw(password, salt)
 
-        u = User(
+        u = UserModel(
             first_name=first_name,
             last_name=last_name,
             email=email,

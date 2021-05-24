@@ -33,9 +33,20 @@ class Controller(metaclass=ABCMeta):
     '''
     def execute(self):
         try: # pylint: disable=broad-except
+            log_dict = {'class_name': self.__class__.__name__,
+                        'endpoint': request.url,
+                        'request_method': request.method}
+            # TODO: Convert to logging when logs are implemented.
+            print(f'Executing Controller. Additional info: {log_dict}')
             response = self.process_request()
+            print(f'Response: {response}. Additional info: {log_dict}')
+
+        # TODO: Handle custom exceptions
+
+        # TODO: Handle system exceptions
         except Exception as e:
             raise e
+
         return response
 
     @abstractmethod

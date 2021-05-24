@@ -2,7 +2,7 @@
 '''
 from star_tides.core.actions.base_action import Action
 from star_tides.core.actions.create_user_action import CreateUserAction
-from star_tides.services.mongo.models.user_model import User
+from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.api.util.issue_jwt import create_jwt
 import bcrypt
 import string
@@ -42,7 +42,7 @@ class LoginUserAction(Action):
         if self.username and self.password:
 
             password = self.password.encode('utf-8')
-            user = User.objects(email=self.username).first()
+            user = UserModel.objects(email=self.username).first()
 
             if user is None:
                 # TODO create a custom exception and raise it
@@ -65,7 +65,7 @@ class LoginUserAction(Action):
                 print(f'{self.__class__.__name__} No email in claims: {email}')
                 return ''
 
-            user = User.objects(email=email).first()
+            user = UserModel.objects(email=email).first()
 
             if user is None:
                 print(f'{self.__class__.__name__} '
@@ -83,7 +83,7 @@ class LoginUserAction(Action):
                     password
                 ).execute()
 
-                user = User.objects(email=email).first()
+                user = UserModel.objects(email=email).first()
                 if user is None:
                     # TODO create a custom exception and raise it
                     print('User failed to create')

@@ -15,7 +15,7 @@ class CreateUserAction(Action):
         password: string. Password of the user.
 
     Returns:
-        True if successful.
+        A dictionary of the created user
 
     Raises:
         None

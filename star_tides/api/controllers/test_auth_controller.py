@@ -11,10 +11,6 @@ from star_tides.tests.utils import response_to_dict
 from star_tides.utils.random_string import gen_rand_n_str
 
 
-# email = body.get('email')
-# password = body.get('password')
-
-
 def test_create_user(client):
     ''' Tests creating a user.
     '''

@@ -1,5 +1,5 @@
 # kb
-The STAR-TIDES Knowledge Base project.
+The STAR-TIDES Knowledge Base project. Hooray!
 
 ## Getting Started
 Instructions on setting up the local development environment can be found

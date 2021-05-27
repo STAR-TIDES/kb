@@ -14,7 +14,7 @@ export class ResponsiveDemoComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (!!params['name']) {
-        this.name = params['name'];
+        this.name = String(params['name']).toUpperCase();
       }
     });
   }

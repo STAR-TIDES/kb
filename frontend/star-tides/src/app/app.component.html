@@ -1,11 +1,41 @@
 <div>
-  <div class='title'>
+  <div class='title' fxLayout='column'>
     <h1>Welcome to the {{title}} app!</h1>
   </div>
-  <div class='greeting'>
-    <div><h2>Aloha {{name}}!</h2></div>
+  <div class='greeting' fxLayout='column'>
+    <div>
+      <h2>Aloha {{name}}!</h2>
+    </div>
+    <div fxLayout='row'>
+      <div fxFlex='50'>BIG</div>
+      <div fxFlex='25'>small</div>
+      <div fxFlex='25'>also small</div>
+    </div>
   </div>
-  <h3>Below you will find router-based content:</h3>
+  <div fxLayout=row>
+    <div fxFlex='33'></div>
+    <div fxFlex='33' fxLayoutAlign='center'><button type='button' mat-raised-button color='primary'>Does Nothing!</button></div>
+    <div fxFlex='33'></div>
+  </div>
+  <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+  <script type="text/javascript">
+    function onSignIn(googleUser) {
+      // Useful data for your client-side scripts:
+      var profile = googleUser.getBasicProfile();
+      console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());
+
+      // The ID token you need to pass to your backend:
+      var id_token = googleUser.getAuthResponse().id_token;
+      console.log("ID Token: " + id_token);
+    }
+  </script>
+  <div class='column'>
+    <h3>Below you will find router-based content:</h3>
+  </div>
   <router-outlet></router-outlet>
 </div>
-

@@ -19,7 +19,9 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    // https://stackoverflow.com/a/60685739.
+    "paths": { "@angular/*": [ "./node_modules/@angular/*" ] }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

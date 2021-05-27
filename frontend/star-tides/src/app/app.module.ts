@@ -5,7 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.component';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +18,8 @@ import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.compo
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    // FlexLayoutModule,
+    FlexLayoutModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

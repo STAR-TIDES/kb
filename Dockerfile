@@ -14,8 +14,15 @@ RUN npm install -g @angular/cli@latest
 RUN ng build --no-verbose --deploy-url='/static/'
 WORKDIR /tmp-frontend/dist/star-tides
 # TODO(ljr): Where does Flask expect the compiled Angular files to be?
+COPY . /
+COPY . /app/star_tides/static
+COPY . /app/star_tides/
 COPY . /app/static
 COPY . /app/templates
+COPY . /static/
+
+FROM ubuntu:latest
+RUN ls -lR
 
 FROM python:3.7-stretch
 WORKDIR /

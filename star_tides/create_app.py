@@ -3,7 +3,8 @@
 Contains application factory for the flask app.
 
 '''
-from flask import Flask, render_template
+from flask import Flask
+from flask.helpers import send_from_directory
 from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
@@ -23,7 +24,11 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('index.html')
+        print('hello leo')
+        # os.system('ls -l')
+        # os.system('ls -l /app/frontend')
+        # os.system('tree')
+        return send_from_directory('static', 'index.html')
 
     app.register_blueprint(bp)
     app.register_blueprint(auth)

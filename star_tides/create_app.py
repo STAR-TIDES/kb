@@ -24,10 +24,6 @@ def create_app():
 
     @app.route('/')
     def index():
-        print('hello leo')
-        # os.system('ls -l')
-        # os.system('ls -l /app/frontend')
-        # os.system('tree')
         return send_from_directory('static', 'index.html')
 
     app.register_blueprint(bp)

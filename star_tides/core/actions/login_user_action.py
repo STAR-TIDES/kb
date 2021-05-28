@@ -10,6 +10,7 @@ import bcrypt
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from flask import current_app
+from collections import namedtuple
 
 
 class LoginUserAction(Action):
@@ -24,18 +25,22 @@ class LoginUserAction(Action):
         token: string or None. A google sign in token used for verification.
 
     Returns:
-        A signed JWT
+        Response tuple ('jwt', 'refresh_token')
 
     Raises:
         UserNotFoundError: When provided with basic auth (email + password)
             no user with {email} was found.
     '''
+
+    response = namedtuple('Response', ['jwt', 'refresh_token'])
+
     def __init__(self, username=None, password=None, token=None):
         self.username = username
         self.password = password
         self.token = token
 
-    def run(self) -> (str, str):
+    #
+    def run(self):
         if self.username and self.password:
 
             password = self.password.encode('utf-8')
@@ -47,7 +52,7 @@ class LoginUserAction(Action):
 
             if bcrypt.checkpw(password, user.password):
                 # TODO create refresh token
-                return create_jwt(user.email), ''
+                return LoginUserAction.response(create_jwt(user.email), '')
             # TODO create a custom exception and raise it
             print(f'{self.__class__.__name__} Password not a match')
         elif self.token:
@@ -62,7 +67,7 @@ class LoginUserAction(Action):
                 # TODO create a custom exception and raise it
                 print(f'{self.__class__.__name__} No email in claims: {email}')
                 # TODO: Remove return here in favor of a raised exception
-                return '', ''
+                raise Exception('email not found from token')
 
             user = UserModel.objects(email=email).first()
 
@@ -85,6 +90,6 @@ class LoginUserAction(Action):
                 user = UserModel.objects(email=email).first()
                 if user is None:
                     # TODO create a custom exception and raise it
-                    print('User failed to create')
+                    raise Exception('User failed to create')
 
-            return create_jwt(user.email), ''
+            return LoginUserAction.response(create_jwt(user.email), '')

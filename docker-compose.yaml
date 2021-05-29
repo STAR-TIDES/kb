@@ -4,18 +4,18 @@ services:
   star-tides:
     build:
       context: ./ # Context should be where the docker-compose file is located
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     env_file: # Stores our environment variables
       - .env
     restart: always # Restarts the container if it fails
-    volumes: # Mounts the codebase in at runtime so that A) we can hot reload
+    volumes: [] # Mounts the codebase in at runtime so that A) we can hot reload
              # code and B) so that we don't have to docker-compose build;
              # docker-compose up every time we make a code change
-      - ./:/app
+      # - ./:/app
     depends_on:
       - mongodb_container # depends on the database
     ports:
-      - 5000:5000 # Available on host port 5000, broadcasting on container port 5000
+      - 5000:80 # Available on host port 5000, broadcasting on container port 5000
   test: # Same as the star-tides service but used for testing the backend
     build:
       context: ./
@@ -23,8 +23,8 @@ services:
     env_file:
       - .env
     restart: always
-    volumes:
-      - ./:/app
+    volumes: []
+      # - ./:/app
     depends_on: # means that docker-compose up test will start the mongodb_container service
                 # before launching the test service
       - mongodb_container

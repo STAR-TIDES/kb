@@ -4,7 +4,7 @@ Contains application factory for the flask app.
 
 '''
 from flask import Flask
-from flask.helpers import send_from_directory
+from flask import send_from_directory
 from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
@@ -24,7 +24,14 @@ def create_app():
 
     @app.route('/')
     def index():
-        return send_from_directory('static', 'index.html')
+        # os.system('ls -lR /app/static')
+        # return send_from_directory('/app/static/', 'index.html')
+        return 'pls use api'
+
+    # @app.route('/static/')
+    # def 
+
+    # @app.route('/api/*')
 
     app.register_blueprint(bp)
     app.register_blueprint(auth)

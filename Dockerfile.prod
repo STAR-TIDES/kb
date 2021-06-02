@@ -1,3 +1,6 @@
+# This Dockerfile should be used for full production builds as it builds the
+# frontend, the backend, and then sets up an Nginx reverse proxy.
+
 FROM node:12.22-stretch as node_builder
 WORKDIR /app
 COPY . .

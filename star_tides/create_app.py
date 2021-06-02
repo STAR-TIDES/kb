@@ -22,17 +22,6 @@ def create_app():
         host='mongodb://mongodb_container:27017/star_tides?authSource=admin'
     )
 
-    @app.route('/')
-    def index():
-        # os.system('ls -lR /app/static')
-        # return send_from_directory('/app/static/', 'index.html')
-        return 'pls use api'
-
-    # @app.route('/static/')
-    # def 
-
-    # @app.route('/api/*')
-
     app.register_blueprint(bp)
     app.register_blueprint(auth)
 

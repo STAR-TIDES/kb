@@ -10,7 +10,9 @@ export class AppComponent {
   title = 'star-tides';
   name = 'World';
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+    console.log('reporting for duty!');
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

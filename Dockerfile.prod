@@ -4,8 +4,10 @@ COPY . .
 WORKDIR /app/frontend/star-tides/
 RUN npm i --no-verbose
 RUN npm i -g @angular/cli@latest
-RUN ng build --prod --no-verbose --deploy-url='/'
-RUN ls -lR /app/frontend/star-tides/dist
+RUN ng build \
+    --configuration=production \
+    --no-verbose \
+    --deploy-url='/'
 WORKDIR /
 
 FROM python:3.7-stretch as python_builder
@@ -13,7 +15,6 @@ WORKDIR /app
 COPY . .
 COPY --from=node_builder /app/frontend/star-tides/dist/star-tides /app/static
 RUN pip3 install -r star_tides/requirements.txt
-RUN ls -LR /app/static
 CMD python3 run.py
 
 FROM nginx:latest as nginx_builder

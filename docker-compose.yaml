@@ -41,8 +41,8 @@ services:
     env_file:
       - .env
     restart: always
-    volumes: []
-      # - ./:/app
+    volumes:
+      - ./:/app
     depends_on: # means that docker-compose up test will start the mongodb_container service
                 # before launching the test service
       - mongodb_container

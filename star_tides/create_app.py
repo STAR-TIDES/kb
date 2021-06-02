@@ -4,7 +4,6 @@ Contains application factory for the flask app.
 
 '''
 from flask import Flask
-from flask import send_from_directory
 from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth

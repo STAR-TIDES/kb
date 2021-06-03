@@ -3,6 +3,7 @@
 from star_tides.services.interfaces.utils.interface_decorator import (
     interface_decorator
 )
+from star_tides.constants import UserTypes
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.services.databases.mongo.schemas.user_schema import UserSchema
 
@@ -18,7 +19,7 @@ class UserInterface:
                     last_name: str,
                     email: str,
                     pw_hash: bytes,
-                    kb_privilege: int = 0,
+                    kb_privilege: int = UserTypes.COLLABORATOR,
                     only: list = None) -> dict:
         ''' Creates a user.
 

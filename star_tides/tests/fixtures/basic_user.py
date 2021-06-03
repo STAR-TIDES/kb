@@ -2,6 +2,7 @@
 '''
 import pytest
 import bcrypt
+from star_tides.constants import UserTypes
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.services.databases.mongo.schemas.user_schema import UserSchema
 from star_tides.utils.random_string import gen_rand_n_str
@@ -19,7 +20,7 @@ def basic_user():
             last_name=f'User-{gen_rand_n_str(3)}',
             email=f'{gen_rand_n_str(8)}@example.com',
             password='password',
-            kb_privilege=0
+            kb_privilege=UserTypes.COLLABORATOR
     ):
 
         password = password.encode('utf-8')

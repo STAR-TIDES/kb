@@ -1,7 +1,7 @@
 ''' star_tides.core.actions.create_user_action
 '''
 from star_tides.core.actions.base_action import Action
-from star_tides.services.mongo.models.user_model import User
+from star_tides.services.interfaces.user_interface import UserInterface
 import bcrypt
 
 
@@ -15,7 +15,7 @@ class CreateUserAction(Action):
         password: string. Password of the user.
 
     Returns:
-        True if successful.
+        A dictionary of the created user
 
     Raises:
         None
@@ -30,15 +30,11 @@ class CreateUserAction(Action):
     def run(self):
         salt = bcrypt.gensalt()
         self.password = self.password.encode('utf-8')
-
         pw_hash = bcrypt.hashpw(self.password, salt)
-
-        user = User(
-            first_name=self.first_name,
-            last_name=self.last_name,
-            email=self.email,
-            password=pw_hash
+        user = UserInterface.create_user(
+            self.first_name,
+            self.last_name,
+            self.email,
+            pw_hash
         )
-        user.save()
-
-        return True
+        return user

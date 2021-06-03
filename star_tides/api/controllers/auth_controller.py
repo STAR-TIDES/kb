@@ -7,9 +7,13 @@ from star_tides.core.actions.login_user_action import LoginUserAction, CreateUse
 class LoginController(Controller):
     ''' Controller to handle basic auth login (username and password)
     '''
-    def process_request(self):
+    def process_request(self) -> dict:
         username, password = self.process_basic_auth()
-        return LoginUserAction(username, password).execute()
+        jwt, refresh = LoginUserAction(username, password).execute()
+        return {
+            'jwt': jwt,
+            'refresh_token': refresh
+        }
 
 
 class CreateUserController(Controller):
@@ -32,14 +36,15 @@ class CreateUserController(Controller):
         email = body.get('email')
         password = body.get('password')
 
-        login = CreateUserAction(
+        user = CreateUserAction(
             first_name,
             last_name,
             email,
             password
         ).execute()
 
-        return str(login)
+        return user
+
 
 class GoogleSignInController(Controller):
     ''' Controller to handle Google SSO login.

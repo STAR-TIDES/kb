@@ -33,13 +33,24 @@ class Controller(metaclass=ABCMeta):
     '''
     def execute(self):
         try: # pylint: disable=broad-except
+            # log_dict = {'class_name': self.__class__.__name__,
+            #             'endpoint': request.url,
+            #             'request_method': request.method}
+            # TODO: Convert to logging when logs are implemented.
             response = self.process_request()
+
+
+        # TODO: Handle custom exceptions
+
+        # TODO: Handle system exceptions
         except Exception as e:
             raise e
+
         return response
 
     @abstractmethod
     def process_request(self):
+        # raise NotImplemented('Method not implemented.')
         pass
 
     @staticmethod

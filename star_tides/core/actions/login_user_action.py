@@ -41,27 +41,18 @@ class LoginUserAction(Action):
 
     #
     def run(self):
-        if self.username and self.password:
 
-            password = self.password.encode('utf-8')
-            user = UserModel.objects(email=self.username).first()
+        if not (self.token or (self.username and self.password)):
+            raise Exception('Must use either token or username and password')
 
-            if user is None:
-                # TODO create a custom exception and raise it
-                print(f'{self.__class__.__name__} User not found')
+        if self.token:
 
-            if bcrypt.checkpw(password, user.password):
-                # TODO create refresh token
-                return LoginUserAction.response(create_jwt(user.email), '')
-            # TODO create a custom exception and raise it
-            print(f'{self.__class__.__name__} Password not a match')
-        elif self.token:
-            idinfo = id_token.verify_oauth2_token(
+            id_info = id_token.verify_oauth2_token(
                 self.token,
                 requests.Request(),
                 current_app.config['CLIENT_ID']
             )
-            email = idinfo.get('email')
+            email = id_info.get('email')
 
             if email is None:
                 # TODO create a custom exception and raise it
@@ -77,8 +68,8 @@ class LoginUserAction(Action):
                       f'{email}\nCreating user'
                 )
 
-                first_name = idinfo.get('given_name')
-                last_name =  idinfo.get('family_name')
+                first_name = id_info.get('given_name')
+                last_name =  id_info.get('family_name')
                 password = gen_rand_n_str(32)
                 CreateUserAction(
                     first_name,
@@ -93,3 +84,16 @@ class LoginUserAction(Action):
                     raise Exception('User failed to create')
 
             return LoginUserAction.response(create_jwt(user.email), '')
+
+        password = self.password.encode('utf-8')
+        user = UserModel.objects(email=self.username).first()
+
+        if user is None:
+            # TODO create a custom exception and raise it
+            print(f'{self.__class__.__name__} User not found')
+
+        if bcrypt.checkpw(password, user.password):
+            # TODO create refresh token
+            return LoginUserAction.response(create_jwt(user.email), '')
+        # TODO create a custom exception and raise it
+        print(f'{self.__class__.__name__} Password not a match')

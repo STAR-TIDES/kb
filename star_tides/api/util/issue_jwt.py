@@ -13,7 +13,9 @@ def create_jwt(email):
         'iss': 'star-tides',
         'exp': now + 3600,
         'iat': now,
-        'aud': [f'email:{email}']
+        'claims': {
+            'email': email
+        }
         },
         current_app.config['SECRET_KEY']
     )

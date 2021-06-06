@@ -4,8 +4,9 @@ Contains the base class for all Controllers.
 
 '''
 from abc import ABCMeta, abstractmethod
-from flask import request
+from flask import request, current_app
 import base64
+import jwt
 
 
 class Controller(metaclass=ABCMeta):
@@ -90,5 +91,29 @@ class Controller(metaclass=ABCMeta):
             raise e
 
         return user_id, password
+
+    @staticmethod
+    def decode_jwt() -> dict:
+        # TODO create exceptions for authorization
+        token = None
+        decoded_jwt = None
+
+        header = request.headers.get('Authorization')
+        if header is None:
+            raise Exception('No Authorization header present.')
+        try:
+            token = header.split(' ')[1]
+        except IndexError as e:
+            raise Exception('Invalid authorization header.') from e
+
+        try:
+            decoded_jwt = jwt.decode(
+                token, algorithms=['HS256'],
+                key=current_app.config['SECRET_KEY']
+            )
+        except jwt.exceptions.InvalidSignatureError as e:
+            raise Exception('Signature is invalid.') from e
+
+        return decoded_jwt
 
 

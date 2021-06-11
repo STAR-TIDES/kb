@@ -5,6 +5,7 @@ from star_tides.core.actions.create_user_action import CreateUserAction
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.api.util.issue_jwt import create_jwt
 from star_tides.utils.random_string import gen_rand_n_str
+from star_tides.exceptions import ParamInvalidError
 import bcrypt
 
 from google.oauth2 import id_token
@@ -43,7 +44,8 @@ class LoginUserAction(Action):
     def run(self):
 
         if not (self.token or (self.username and self.password)):
-            raise Exception('Must use either token or username and password')
+            raise ParamInvalidError(
+                'Must use either token or username and password')
 
         if self.token:
 

@@ -17,6 +17,7 @@ def test_login_required_decorator(client, basic_user):
         response = client.get('/test_route')
         assert False
     # Will need to be updated when we have an exceptions framework made.
+    # TODO Issue 38
     except Exception:
         pass
 

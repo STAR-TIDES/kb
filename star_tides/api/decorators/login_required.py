@@ -22,12 +22,12 @@ def login_required(func):
         try:
             jwt = Controller.decode_jwt()
             if now > jwt['exp']:
-                # TODO return 401 response
-                raise Exception('expired jwt.')
+                # TODO return 401 response Issue 38.
+                raise Exception('expired jwt. Use refresh token or re-login')
         except Exception as e:
-            # TODO handle the various exceptions from decode_jwt
-            # TODO build 401 response
-            raise Exception('Jwt invalid.') from e
+            # TODO handle the various exceptions from decode_jwt. Issue 38
+            # TODO build 401 response.
+            raise Exception('Jwt invalid. Use refresh token or re-login') from e
         return func(*args, **kwargs)
 
     return wrapper

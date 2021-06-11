@@ -17,10 +17,10 @@ def create_jwt(email):
     jwt_token = jwt.encode(
         {
             'iss': 'star-tides',
-            'exp': now + seconds * minutes,
+            'exp': now + 3600,
             'iat': now,
             'claims': {
-                'email': email,
+                'email': email
             }
         },
         current_app.config['SECRET_KEY']

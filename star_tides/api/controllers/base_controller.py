@@ -4,8 +4,9 @@ Contains the base class for all Controllers.
 
 '''
 from abc import ABCMeta, abstractmethod
-from flask import request
+from flask import request, current_app
 import base64
+import jwt
 
 
 class Controller(metaclass=ABCMeta):
@@ -36,13 +37,13 @@ class Controller(metaclass=ABCMeta):
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
-            # TODO: Convert to logging when logs are implemented.
+            # TODO: Convert to logging when logs are implemented. Issue 38
             response = self.process_request()
 
 
-        # TODO: Handle custom exceptions
+        # TODO: Handle custom exceptions Issue 38
 
-        # TODO: Handle system exceptions
+        # TODO: Handle system exceptions Issue 38
         except Exception as e:
             raise e
 
@@ -50,7 +51,6 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def process_request(self):
-        # raise NotImplemented('Method not implemented.')
         pass
 
     @staticmethod
@@ -73,7 +73,7 @@ class Controller(metaclass=ABCMeta):
             username, password = Controller.decode_basic_auth(encoded)
 
             return username, password
-        # TODO exception
+        # TODO exception Issue 38
         except Exception as e:
             raise e
 
@@ -87,8 +87,33 @@ class Controller(metaclass=ABCMeta):
             user_id = credentials_parts[0]
             password = credentials_parts[1]
         except Exception as e:
+            # TODO Issue 38 handle exception
             raise e
 
         return user_id, password
+
+    @staticmethod
+    def decode_jwt() -> dict:
+        # TODO create exceptions for authorization Issue 38
+        token = None
+        decoded_jwt = None
+
+        header = request.headers.get('Authorization')
+        if header is None:
+            raise Exception('No Authorization header present.')
+        try:
+            token = header.split(' ')[1]
+        except IndexError as e:
+            raise Exception('Invalid authorization header.') from e
+
+        try:
+            decoded_jwt = jwt.decode(
+                token, algorithms=['HS256'],
+                key=current_app.config['SECRET_KEY']
+            )
+        except jwt.exceptions.InvalidSignatureError as e:
+            raise Exception('Signature is invalid.') from e
+
+        return decoded_jwt
 
 

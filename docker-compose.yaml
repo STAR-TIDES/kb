@@ -1,25 +1,43 @@
 version: "3.3"
 services:
-  # Main service. This is our actual application.
+  # Main service. This is our actual application, ready for production.
   star-tides:
     build:
       context: ./ # Context should be where the docker-compose file is located
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     env_file: # Stores our environment variables
       - .env
     restart: always # Restarts the container if it fails
-    volumes: # Mounts the codebase in at runtime so that A) we can hot reload
-             # code and B) so that we don't have to docker-compose build;
-             # docker-compose up every time we make a code change
-      - ./:/app
+    volumes: [] # Only use contents directly copied from Dockerfile.prod.
     depends_on:
       - mongodb_container # depends on the database
     ports:
-      - 5000:5000 # Available on host port 5000, broadcasting on container port 5000
+      # Connect Nginx on port 80 to the Flask backend running on 5000.
+      - 5000:80
+  # star-tides-dev starts up a local dev instance of the backend connected to
+  # the local dev Mongo DB instance. If you want to test frontend integration,
+  # in a separate tab, run `ng serve [--configuration=production]`.
+  star-tides-dev:
+      build:
+        context: ./
+        dockerfile: Dockerfile.dev
+      env_file:
+        - .env
+      restart: always
+      # Mounts the codebase in at runtime so that A) we can hot reload
+      # code and B) so that we don't have to docker-compose build;
+      # docker-compose up every time we make a code change.
+      volumes:
+        - ./:/app
+      depends_on:
+        - mongodb_container
+      ports:
+        # Available on host port 5000, broadcasting on container port 5000.
+        - 5000:5000  
   test: # Same as the star-tides service but used for testing the backend
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     env_file:
       - .env
     restart: "no"

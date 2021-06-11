@@ -3,7 +3,7 @@
 Contains application factory for the flask app.
 
 '''
-from flask import Flask, render_template
+from flask import Flask
 from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
@@ -20,10 +20,6 @@ def create_app():
         password=os.getenv('MONGO_INITDB_ROOT_PASSWORD'),
         host='mongodb://mongodb_container:27017/star_tides?authSource=admin'
     )
-
-    @app.route('/')
-    def index():
-        return render_template('index.html')
 
     app.register_blueprint(bp)
     app.register_blueprint(auth)

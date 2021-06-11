@@ -6,10 +6,15 @@ from flask import current_app
 
 
 def create_jwt(email):
-
+    seconds = 60
+    minutes = 60
+    hours = 24
+    days = 7
+    weeks = 4
+    months = 6
     now = int(time.time())
 
-    return jwt.encode(
+    jwt_token = jwt.encode(
         {
             'iss': 'star-tides',
             'exp': now + 3600,
@@ -21,3 +26,13 @@ def create_jwt(email):
         current_app.config['SECRET_KEY']
     )
 
+    # Refresh token valid for 6 months
+    refresh_token = jwt.encode({
+        'iss': 'star-tides',
+        'exp': now + seconds * minutes * hours * days * weeks * months,
+        'iat': now,
+        },
+        current_app.config['SECRET_KEY']
+    )
+
+    return jwt_token, refresh_token

@@ -83,7 +83,7 @@ class LoginUserAction(Action):
                     # TODO create a custom exception and raise it
                     raise Exception('User failed to create')
 
-            return LoginUserAction.response(create_jwt(user.email), '')
+            return LoginUserAction.response(*create_jwt(user.email))
 
         password = self.password.encode('utf-8')
         user = UserModel.objects(email=self.username).first()
@@ -94,6 +94,6 @@ class LoginUserAction(Action):
 
         if bcrypt.checkpw(password, user.password):
             # TODO create refresh token
-            return LoginUserAction.response(create_jwt(user.email), '')
+            return LoginUserAction.response(*create_jwt(user.email))
         # TODO create a custom exception and raise it
         print(f'{self.__class__.__name__} Password not a match')

@@ -59,6 +59,9 @@ class GoogleSignInController(Controller):
     def process_request(self):
         body = self.get_request_body(body_type='form')
 
-        result = LoginUserAction(token=body.get('idtoken')).execute()
+        jwt, refresh = LoginUserAction(token=body.get('idtoken')).execute()
 
-        return str(result)
+        return {
+            'jwt': jwt,
+            'refresh': refresh
+        }

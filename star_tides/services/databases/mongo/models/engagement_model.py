@@ -1,10 +1,13 @@
-'''Objects and utilities for working with "engagement" data (e.g. what areas of
+'''
+star_tides.services.databases.mongo.models.engagement_model
+
+Objects and utilities for working with "engagement" data (e.g. what areas of
 interest a contact is interested in) at the database level.
 '''
 
 from mongoengine import EmbeddedDocument
 from mongoengine.fields import EmbeddedDocumentListField, ListField
-from .location_model import LocationModel
+from star_tides.services.databases.mongo.models.location_model import LocationModel
 
 class EngagementModel(EmbeddedDocument):
     '''

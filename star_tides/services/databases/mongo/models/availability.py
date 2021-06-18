@@ -1,4 +1,8 @@
-'''Enums and utilities related to Contact Availability at the database-level.'''
+'''
+star_tides.services.databases.mongo.models.availability
+
+Enums and utilities related to Contact Availability at the database-level.
+'''
 
 from enum import Enum, auto
 

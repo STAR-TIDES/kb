@@ -1,10 +1,14 @@
-'''ContactModel representing Contact objects in the MongoDB database.'''
+'''
+star_tides.services.databases.mongo.models.contact_model
+
+ContactModel representing Contact objects in the MongoDB database.
+'''
 
 from mongoengine import Document, StringField, EmailField, UUIDField, URLField
 from mongoengine.fields import EmbeddedDocumentField, ListField, EnumField
-from .location_model import LocationModel
-from .engagement_model import EngagementModel
-from .availability import Availability
+from star_tides.services.databases.mongo.models.location_model import LocationModel
+from star_tides.services.databases.mongo.models.engagement_model import EngagementModel
+from star_tides.services.databases.mongo.models.availability import Availability
 
 class ContactModel(Document):
     '''Contact MongoDB model.'''

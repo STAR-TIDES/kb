@@ -1,4 +1,7 @@
-'''Objects and utilities for working with geographic locations at the database
+'''
+star_tides.services.databases.mongo.models.location_model
+
+Objects and utilities for working with geographic locations at the database
 level.
 '''
 

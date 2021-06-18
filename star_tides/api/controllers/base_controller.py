@@ -5,6 +5,8 @@ Contains the base class for all Controllers.
 '''
 from abc import ABCMeta, abstractmethod
 from flask import request, current_app
+from star_tides.exceptions import StarTidesException
+from star_tides.api.controllers import build_response
 import base64
 import jwt
 
@@ -33,21 +35,24 @@ class Controller(metaclass=ABCMeta):
     and more to come!
     '''
     def execute(self):
+        error_code = None
         try: # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
-            # TODO: Convert to logging when logs are implemented. Issue 38
+            # TODO: Convert to logging when logs are implemented. Unknown issue
+            # number.
             response = self.process_request()
+        except StarTidesException as e:
+            response = e
+        except Exception as e:  # pylint: disable=broad-except
+            response = {'error': str(e)}
+            error_code = 500
 
-
-        # TODO: Handle custom exceptions Issue 38
-
-        # TODO: Handle system exceptions Issue 38
-        except Exception as e:
-            raise e
-
-        return response
+        return build_response(
+            response,
+            status_code=(200 if error_code is None else error_code)
+        )
 
     @abstractmethod
     def process_request(self):

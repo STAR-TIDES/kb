@@ -5,7 +5,12 @@ from star_tides.core.actions.create_user_action import CreateUserAction
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.api.util.issue_jwt import create_jwt
 from star_tides.utils.random_string import gen_rand_n_str
-from star_tides.exceptions import ParamInvalidError
+from star_tides.exceptions import (
+    ParamInvalidError,
+    GenericActionError,
+    RecordDoesNotExistError,
+    AuthenticationFailureError
+)
 import bcrypt
 
 from google.oauth2 import id_token
@@ -44,8 +49,11 @@ class LoginUserAction(Action):
     def run(self):
 
         if not (self.token or (self.username and self.password)):
-            raise ParamInvalidError(
-                'Must use either token or username and password')
+            raise ParamInvalidError(response_msg='Must use either token or '
+                                                'username and password',
+                                    logging_msg='Must use either token or '
+                                                'username and password'
+                                    )
 
         if self.token:
 
@@ -57,14 +65,15 @@ class LoginUserAction(Action):
             email = id_info.get('email')
 
             if email is None:
-                # TODO create a custom exception and raise it
+                # TODO Log this.
                 print(f'{self.__class__.__name__} No email in claims: {email}')
-                # TODO: Remove return here in favor of a raised exception
-                raise Exception('email not found from token')
+                raise ParamInvalidError(logging_msg='No email found from google'
+                                                    'sso token')
 
             user = UserModel.objects(email=email).first()
 
             if user is None:
+                # TODO Log this.
                 print(f'{self.__class__.__name__} '
                       f'No account associated with email in claims: '
                       f'{email}\nCreating user'
@@ -83,7 +92,10 @@ class LoginUserAction(Action):
                 user = UserModel.objects(email=email).first()
                 if user is None:
                     # TODO create a custom exception and raise it
-                    raise Exception('User failed to create')
+                    raise GenericActionError(
+                        response_msg='User failed to create',
+                        logging_msg='User failed to create'
+                    )
 
             return LoginUserAction.response(*create_jwt(user.email))
 
@@ -92,10 +104,15 @@ class LoginUserAction(Action):
 
         if user is None:
             # TODO create a custom exception and raise it
-            print(f'{self.__class__.__name__} User not found')
+            raise RecordDoesNotExistError(
+                response_msg='User does not exist or password is incorrect',
+                logging_msg='User does not exist or password is incorrect'
+            )
 
         if bcrypt.checkpw(password, user.password):
-            # TODO create refresh token
             return LoginUserAction.response(*create_jwt(user.email))
         # TODO create a custom exception and raise it
-        print(f'{self.__class__.__name__} Password not a match')
+        raise AuthenticationFailureError(
+            response_msg='User does not exist or password is incorrect',
+            logging_msg='User does not exist or password is incorrect'
+        )

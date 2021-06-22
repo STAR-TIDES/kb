@@ -17,4 +17,4 @@ def index():
 
 @bp.route('/test_route/no_auth')
 def index_no_auth():
-    return "It's an app yo [no auth] %s" % datetime.now()
+    return f"It's an app yo [no auth] {datetime.now()}"

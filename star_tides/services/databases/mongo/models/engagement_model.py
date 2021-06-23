@@ -6,7 +6,7 @@ interest a contact is interested in) at the database level.
 '''
 
 from mongoengine import EmbeddedDocument
-from mongoengine.fields import EmbeddedDocumentListField, ListField
+from mongoengine.fields import EmbeddedDocumentListField, ListField, StringField
 from star_tides.services.databases.mongo.models.location_model import LocationModel
 
 class EngagementModel(EmbeddedDocument):
@@ -16,7 +16,7 @@ class EngagementModel(EmbeddedDocument):
     '''
 
     locations = EmbeddedDocumentListField(LocationModel, required=True)
-    backgrounds = ListField(required=True)
-    areas_of_interest = ListField(required=True)
-    focuses = ListField(required=True)
+    backgrounds = ListField(StringField(min_length=1),required=True)
+    areas_of_interest = ListField(StringField(min_length=1),required=True)
+    focuses = ListField(StringField(min_length=1), required=True)
 

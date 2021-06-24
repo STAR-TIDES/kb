@@ -1,5 +1,6 @@
 '''star_tides.core.action.get_contact_action
 '''
+from star_tides.core.data.contact_data import ContactData
 from star_tides.services.databases.mongo.models.contact_model import ContactModel
 from star_tides.core.actions.base_action import Action
 
@@ -12,4 +13,5 @@ class GetContactAction(Action):
         self.contact_id = contact_id
 
     def run(self):
-        return ContactModel.objects.get(id=self.contact_id)
+        model = ContactModel.objects.get(id=self.contact_id)
+        return ContactData.from_model(model)

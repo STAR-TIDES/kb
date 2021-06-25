@@ -9,6 +9,7 @@ from star_tides.exceptions import StarTidesException
 from star_tides.api.controllers import build_response
 import base64
 import jwt
+from http import HTTPStatus
 
 
 class Controller(metaclass=ABCMeta):
@@ -45,13 +46,14 @@ class Controller(metaclass=ABCMeta):
             response = self.process_request()
         except StarTidesException as e:
             response = e
+            error_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
             response = {'error': str(e)}
-            error_code = 500
+            error_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
         return build_response(
             response,
-            status_code=(200 if error_code is None else error_code)
+            status_code=(HTTPStatus.OK if error_code is None else error_code)
         )
 
     @abstractmethod

@@ -1,14 +1,15 @@
 ''' star_tides.api.controllers
 '''
 import json
+from http import HTTPStatus
 from typing import Union
 from flask import Response
-from star_tides.exceptions import StarTidesException, RESPONSE_CONSTANTS_TO_INT
+from star_tides.exceptions import StarTidesException
 
 
 def build_response(
         response: Union[dict, StarTidesException],
-        status_code: int = 200
+        status_code: int = HTTPStatus.OK
     ) -> Response:
     ''' Builds a flask JSON response.
 
@@ -35,5 +36,5 @@ def build_response(
     return Response(
         response_payload,
         mimetype='application/json',
-        status=RESPONSE_CONSTANTS_TO_INT[response_status_code]
+        status=response_status_code
     )

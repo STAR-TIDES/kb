@@ -1,7 +1,7 @@
 '''star_tides.api.routes.contact_route
 '''
 
-from star_tides.api.controllers.contact_controller import CreateContactController, DeleteContactController, GetContactController, ListContactsController
+from star_tides.api.controllers.contact_controller import CreateContactController, DeleteContactController, GetContactController, ListContactsController, UpdateContactController
 from star_tides.api.routes import build_response
 from flask import Blueprint
 
@@ -26,4 +26,11 @@ def create_contact():
 
 @contact.route('/<contact_id>', methods=['DELETE'])
 def delete_contact(contact_id: str):
+    # FIXME(ljr): Add login_required.
     return build_response(DeleteContactController(contact_id).execute())
+
+
+@contact.route('/<contact_id>', methods=['PUT'])
+def update_contact(contact_id: str):
+    # FIXME(ljr): Add login_required.
+    return build_response(UpdateContactController(contact_id).execute())

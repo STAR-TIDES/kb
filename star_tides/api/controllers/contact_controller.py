@@ -1,6 +1,7 @@
 '''star_tides.api.controllers.contact_controller
 '''
 
+from star_tides.core.actions.delete_contact_action import DeleteContactAction
 from star_tides.core.data.contact_data import ContactData
 from star_tides.core.actions.create_contact_action import CreateContactAction
 from star_tides.api.controllers import validate_document_id
@@ -34,3 +35,13 @@ class CreateContactController(Controller):
         parsed_contact = ContactData(**json_body)
         created_contact = CreateContactAction(parsed_contact).run()
         return created_contact._asdict()
+
+
+class DeleteContactController(Controller):
+    def __init__(self, contact_id: str) -> None:
+        self.contact_id = contact_id
+
+    def process_request(self):
+        validate_document_id(self.contact_id)
+        DeleteContactAction(self.contact_id).run()
+        return {}

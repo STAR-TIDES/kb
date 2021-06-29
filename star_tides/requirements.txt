@@ -9,3 +9,4 @@ pylint==2.8.2
 astroid==2.5.7
 marshmallow_mongoengine==0.30.2
 marshmallow_enum==1.5.1
+marshmallow==3.12.1

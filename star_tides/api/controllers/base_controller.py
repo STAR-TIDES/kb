@@ -3,6 +3,7 @@
 Contains the base class for all Controllers.
 
 '''
+from collections import namedtuple
 from abc import ABCMeta, abstractmethod
 from flask import request, current_app
 from star_tides.exceptions import StarTidesException
@@ -35,26 +36,28 @@ class Controller(metaclass=ABCMeta):
     * decode_basic_auth
     and more to come!
     '''
+
+    response = namedtuple('Response', 'response http_code')
+
     def execute(self):
-        error_code = None
         try: # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
-            # TODO: Convert to logging when logs are implemented. Unknown issue
+            # TODO: Convert to logging when logs are implemented. Issue 27
             # number.
-            response = self.process_request()
+            res, error_code = self.process_request()
+
         except StarTidesException as e:
-            response = e
+            res = e
             error_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
-            response = {'error': str(e)}
+            res = {'error': str(e)}
             error_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
-        return build_response(
-            response,
-            status_code=(HTTPStatus.OK if error_code is None else error_code)
-        )
+        response = Controller.response(res, error_code)
+
+        return build_response(response)
 
     @abstractmethod
     def process_request(self):

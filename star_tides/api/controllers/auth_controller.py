@@ -1,5 +1,6 @@
 ''' star_tides.api.controllers.auth_controller
 '''
+from http import HTTPStatus
 from star_tides.api.controllers.base_controller import Controller
 from star_tides.core.actions.login_user_action import (
     LoginUserAction,
@@ -10,13 +11,15 @@ from star_tides.core.actions.login_user_action import (
 class LoginController(Controller):
     ''' Controller to handle basic auth login (username and password)
     '''
-    def process_request(self) -> dict:
+    def process_request(self) -> tuple:
         username, password = self.process_basic_auth()
         jwt, refresh = LoginUserAction(username, password).execute()
-        return {
+        response = {
             'jwt': jwt,
             'refresh_token': refresh
         }
+        http_code = HTTPStatus.OK
+        return response, http_code
 
 
 class CreateUserController(Controller):
@@ -32,7 +35,7 @@ class CreateUserController(Controller):
         String jwt of current user's login session.
 
     '''
-    def process_request(self) -> dict:
+    def process_request(self) -> tuple:
         body = self.get_request_body()
         first_name = body.get('first_name')
         last_name = body.get('last_name')
@@ -44,7 +47,7 @@ class CreateUserController(Controller):
             last_name,
             email,
             password
-        ).execute()
+        ).execute(), HTTPStatus.CREATED
 
 
 class GoogleSignInController(Controller):
@@ -57,7 +60,7 @@ class GoogleSignInController(Controller):
         JWT for the current user.
 
     '''
-    def process_request(self) -> dict:
+    def process_request(self) -> tuple:
         body = self.get_request_body(body_type='form')
 
         jwt, refresh = LoginUserAction(token=body.get('idtoken')).execute()
@@ -65,4 +68,4 @@ class GoogleSignInController(Controller):
         return {
             'jwt': jwt,
             'refresh': refresh
-        }
+        }, HTTPStatus.OK

@@ -35,7 +35,6 @@ def test_login_required_decorator(client, basic_user):
     response = client.post('/auth/login',
                            headers=header)
     response_body = response_to_dict(response)
-
     response = client.get('/test_route',
                headers={'Authorization': f'Bearer {response_body["jwt"]}'})
 

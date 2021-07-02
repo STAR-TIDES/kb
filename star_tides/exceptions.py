@@ -32,7 +32,7 @@ class StarTidesException(Exception):
         response_msg: str,
         severity: str,
         logging_msg: str = None,
-        http_code: int = HTTPStatus.OK
+        http_code: int = HTTPStatus.INTERNAL_SERVER_ERROR
     ):
         super().__init__()
         self.error_class = error_class

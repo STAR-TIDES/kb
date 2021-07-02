@@ -43,6 +43,8 @@ class StarTidesException(Exception):
         if logging_msg is None:
             self.logging_msg = response_msg
 
+    def as_dict(self):
+        return {'error': self.response_msg}
 
 # Api errors - 1000s
 class InvalidParamError(StarTidesException):

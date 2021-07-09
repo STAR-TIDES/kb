@@ -3,11 +3,10 @@
 Contains the base class for all Controllers.
 
 '''
-from collections import namedtuple
 from abc import ABCMeta, abstractmethod
 from flask import request, current_app
 from star_tides.exceptions import StarTidesException
-from star_tides.api.controllers import build_response
+from star_tides.api.controllers import build_response, ControllerResponse
 import base64
 import jwt
 from http import HTTPStatus
@@ -37,8 +36,6 @@ class Controller(metaclass=ABCMeta):
     and more to come!
     '''
 
-    response = namedtuple('Response', 'response http_code')
-
     def execute(self):
         try: # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
@@ -46,16 +43,16 @@ class Controller(metaclass=ABCMeta):
             #             'request_method': request.method}
             # TODO: Convert to logging when logs are implemented. Issue 27
             # number.
-            res, error_code = self.process_request()
-
+            res = self.process_request()
+            http_code = HTTPStatus.OK
         except StarTidesException as e:
             res = e
-            error_code = e.http_code
+            http_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
             res = {'error': str(e)}
-            error_code = HTTPStatus.INTERNAL_SERVER_ERROR
+            http_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
-        response = Controller.response(res, error_code)
+        response = ControllerResponse(response=res, http_code=http_code)
 
         return build_response(response)
 
@@ -125,5 +122,3 @@ class Controller(metaclass=ABCMeta):
             raise Exception('Signature is invalid.') from e
 
         return decoded_jwt
-
-

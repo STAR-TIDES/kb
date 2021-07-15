@@ -13,7 +13,8 @@ class CreateContactAction(Action):
     returns the saved copy.
     '''
 
-    def __init__(self, contact: ContactData) -> None:
+    def __init__(self, contact: ContactData,
+                 unused_caller_user_email: str) -> None:
         self.contact = contact
         print(f'got contact! {contact}')
 
@@ -25,7 +26,7 @@ class CreateContactAction(Action):
         #
         # self.contact.update_timestamps.append(
         #     UpdateTimestampData(timestamp=datetime.now(),
-        #                         user_id=self.get_caller_user_id()))
+        #                         user_id=id_from_caller_user_email))
         schema = ContactSchema().load(self.contact._asdict())
         saved_model = ContactModel(**schema, _created=True).save()
         return ContactData.from_model(saved_model)

@@ -34,7 +34,9 @@ class CreateContactController(Controller):
         json_body = self.get_request_body()
         # TODO(ljr): Pass to ContactSchema first?
         parsed_contact = ContactData(**json_body)
-        created_contact = CreateContactAction(parsed_contact).run()
+        created_contact = CreateContactAction(
+            # TODO(ljr): Pass the caller user email.
+            parsed_contact, unused_caller_user_email='').run()
         return created_contact._asdict()
 
 

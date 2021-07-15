@@ -5,7 +5,7 @@ Enums and utilities related to Contact Availability at the database-level.
 '''
 
 from enum import Enum, unique
-from typing import Any
+from typing import Any, Tuple
 
 from mongoengine.errors import ValidationError
 
@@ -20,19 +20,17 @@ class Availability(Enum):
     UNAVAILABLE = 'UNAVAILABLE'
     AVAILABLE = 'AVAILABLE'
 
+    def describe(self) -> Tuple[str, int]:
+        return self.name, self.value
+
+    def __str__(self) -> str:
+        return str(self.name)
+
 
 def availability_validator(value: Any) -> None:
-    if isinstance(value, int):
-        try:
-            _ = Availability(value)
+    tups = {a.describe() for a in Availability}
+    for t in tups:
+        if value in t:
             return
-        except ValueError as error:
-            raise ValidationError('not a valid Availability value') from error
-    if isinstance(value, str):
-        try:
-            _ = Availability[value]
-            return
-        except ValueError as error:
-            raise ValidationError('not a valid Availability name') from error
     raise ValidationError(
-        f'cannot convert a {type(value)} into an Availabilty')
+        f'cannot convert {value} of type {type(value)} into an Availability')

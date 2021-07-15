@@ -5,8 +5,11 @@ Contains the base class for all Controllers.
 '''
 from abc import ABCMeta, abstractmethod
 from flask import request, current_app
+from star_tides.exceptions import StarTidesException
+from star_tides.api.controllers import build_response, ControllerResponse
 import base64
 import jwt
+from http import HTTPStatus
 
 
 class Controller(metaclass=ABCMeta):
@@ -32,22 +35,26 @@ class Controller(metaclass=ABCMeta):
     * decode_basic_auth
     and more to come!
     '''
+
     def execute(self):
         try: # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
-            # TODO: Convert to logging when logs are implemented. Issue 38
-            response = self.process_request()
+            # TODO: Convert to logging when logs are implemented. Issue 27
+            # number.
+            res = self.process_request()
+            http_code = HTTPStatus.OK
+        except StarTidesException as e:
+            res = StarTidesException.as_dict(e)
+            http_code = e.http_code
+        except Exception as e:  # pylint: disable=broad-except
+            res = {'error': str(e)}
+            http_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
+        response = ControllerResponse(response=res, http_code=http_code)
 
-        # TODO: Handle custom exceptions Issue 38
-
-        # TODO: Handle system exceptions Issue 38
-        except Exception as e:
-            raise e
-
-        return response
+        return build_response(response)
 
     @abstractmethod
     def process_request(self):
@@ -115,5 +122,3 @@ class Controller(metaclass=ABCMeta):
             raise Exception('Signature is invalid.') from e
 
         return decoded_jwt
-
-

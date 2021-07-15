@@ -30,7 +30,7 @@ class StarTidesException(Exception):
         self,
         error_class: str,
         response_msg: str,
-        severity: str,
+        severity: str = SEVERITY_ERROR,
         logging_msg: str = None,
         http_code: int = HTTPStatus.INTERNAL_SERVER_ERROR
     ):
@@ -45,6 +45,7 @@ class StarTidesException(Exception):
 
     def as_dict(self):
         return {'error': self.response_msg}
+
 
 # Api errors - 1000s
 class InvalidParamError(StarTidesException):

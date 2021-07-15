@@ -46,7 +46,7 @@ class Controller(metaclass=ABCMeta):
             res = self.process_request()
             http_code = HTTPStatus.OK
         except StarTidesException as e:
-            res = e
+            res = StarTidesException.as_dict(e)
             http_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
             res = {'error': str(e)}

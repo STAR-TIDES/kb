@@ -3,8 +3,9 @@
 
 # TODO Implement a decorator to enforce login
 from functools import wraps
+from star_tides.exceptions import AuthenticationError
+from star_tides.config.settings import UNSAFE_IGNORE_LOGIN_REQUIRED
 from star_tides.api.controllers.base_controller import Controller
-import time
 
 
 def login_required(func):
@@ -12,23 +13,23 @@ def login_required(func):
         in any way other than unauthenticated.
 
         Args:
-            func - function
+            func - the route function.
 
-        Returns: Should return responses
+        Returns: Should return responses.
     '''
     @wraps(func)
     def wrapper(*args, **kwargs):
-        now = int(time.time())
-        try:
-            jwt = Controller.decode_jwt()
-            if now > jwt['exp']:
-                # TODO return 401 response Issue 38.
-                raise Exception('expired jwt. Use refresh token or re-login')
-        except Exception as e:
-            # TODO handle the various exceptions from decode_jwt. Issue 38
-            # TODO build 401 response.
-            raise Exception('Jwt invalid. Use refresh token or re-login') from e
+        if UNSAFE_IGNORE_LOGIN_REQUIRED:
+            # TODO(ljr): Make this a log instead.
+            print('login_required functionality is disabled')
+        else:
+            try:
+                # If the JWT is invalid (e.g. expired, can't be decoded),
+                # this code will raise an exception.
+                Controller.decode_jwt()
+            except Exception as e:
+                raise AuthenticationError(
+                    'Jwt invalid. Use refresh token or re-login') from e
         return func(*args, **kwargs)
 
     return wrapper
-

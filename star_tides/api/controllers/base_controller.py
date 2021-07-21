@@ -6,7 +6,7 @@ Contains the base class for all Controllers.
 from abc import ABCMeta, abstractmethod
 from star_tides.api.util.issue_jwt import get_email_from_jwt
 from flask import request, current_app
-from star_tides.exceptions import StarTidesException
+from star_tides.exceptions import AuthenticationError, StarTidesException
 from star_tides.api.controllers import build_response, ControllerResponse
 import base64
 import jwt
@@ -108,11 +108,11 @@ class Controller(metaclass=ABCMeta):
 
         header = request.headers.get('Authorization')
         if header is None:
-            raise Exception('No Authorization header present.')
+            raise AuthenticationError('No Authorization header present.')
         try:
             token = header.split(' ')[1]
         except IndexError as e:
-            raise Exception('Invalid authorization header.') from e
+            raise AuthenticationError('Invalid authorization header.') from e
 
         try:
             decoded_jwt = jwt.decode(
@@ -120,7 +120,10 @@ class Controller(metaclass=ABCMeta):
                 key=current_app.config['SECRET_KEY']
             )
         except jwt.exceptions.InvalidSignatureError as e:
-            raise Exception('Signature is invalid.') from e
+            raise AuthenticationError('Signature is invalid.') from e
+        except jwt.exceptions.ExpiredSignatureError as e:
+            raise AuthenticationError(
+                'Token has expired. Please log in again.') from e
 
         return decoded_jwt
 

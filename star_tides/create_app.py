@@ -8,6 +8,7 @@ from mongoengine import connect
 from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
 from star_tides.api.routes.contact_route import contact
+from star_tides.api.routes.project_route import project
 import os
 
 
@@ -25,5 +26,6 @@ def create_app():
     app.register_blueprint(bp)
     app.register_blueprint(auth)
     app.register_blueprint(contact)
+    app.register_blueprint(project)
 
     return app

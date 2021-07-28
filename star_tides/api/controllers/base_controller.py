@@ -4,6 +4,7 @@ Contains the base class for all Controllers.
 
 '''
 from abc import ABCMeta, abstractmethod
+from star_tides.api.util.issue_jwt import get_email_from_jwt
 from flask import request, current_app
 from star_tides.exceptions import StarTidesException
 from star_tides.api.controllers import build_response, ControllerResponse
@@ -37,7 +38,7 @@ class Controller(metaclass=ABCMeta):
     '''
 
     def execute(self):
-        try: # pylint: disable=broad-except
+        try:  # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
@@ -74,7 +75,7 @@ class Controller(metaclass=ABCMeta):
 
     @staticmethod
     def process_basic_auth():
-        try: # pylint: disable=broad-except
+        try:  # pylint: disable=broad-except
             auth = request.headers.get('Authorization')
             encoded = auth.split(' ')[1]
             username, password = Controller.decode_basic_auth(encoded)
@@ -122,3 +123,7 @@ class Controller(metaclass=ABCMeta):
             raise Exception('Signature is invalid.') from e
 
         return decoded_jwt
+
+    @staticmethod
+    def get_caller_user_email():
+        return get_email_from_jwt(Controller.decode_jwt())

@@ -2,6 +2,7 @@
 '''
 import json
 from http import HTTPStatus
+import re
 from typing import NamedTuple
 from flask import Response
 import string
@@ -42,3 +43,14 @@ def validate_document_id(given_id: str) -> None:
         # argument code.
         raise InvalidParamError(
             f'expected `{given_id}` to be a 24 character hex string')
+
+
+_snake_case_pattern = re.compile(r'(?<!^)(?=[A-Za-z])')
+
+
+def _to_snake_case(s: str) -> str:
+    return _snake_case_pattern.sub('_', s).lower()
+
+
+def snake_case_dict(d: dict) -> dict:
+    return {_to_snake_case(k): v for k, v in d}

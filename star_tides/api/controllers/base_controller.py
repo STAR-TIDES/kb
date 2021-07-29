@@ -5,9 +5,9 @@ Contains the base class for all Controllers.
 '''
 from abc import ABCMeta, abstractmethod
 from star_tides.api.util.issue_jwt import get_email_from_jwt
-from flask import request, current_app
 from star_tides.exceptions import AuthenticationError, StarTidesException
 from star_tides.api.controllers import build_response, ControllerResponse
+from flask import request, current_app
 import base64
 import jwt
 from http import HTTPStatus
@@ -50,7 +50,10 @@ class Controller(metaclass=ABCMeta):
             res = StarTidesException.as_dict(e)
             http_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
-            res = {'error': str(e)}
+            res = {
+                'error': str(e),
+                'errorClass': e.__class__.__name__,
+            }
             http_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
         response = ControllerResponse(response=res, http_code=http_code)

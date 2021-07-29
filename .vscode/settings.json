@@ -1,4 +1,10 @@
 {
     "python.linting.pylintEnabled": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    // Fix bug with https://github.com/microsoft/vscode/issues/38133.
+    "terminal.integrated.fontSize": 15,
 }

@@ -10,6 +10,8 @@ from star_tides.core.data.project_data import ProjectData
 
 
 class CreateProjectAction(Action):
+    '''Action that creates a Project document in the DB given a ProjectData.'''
+
     def __init__(self, project: ProjectData) -> None:
         self.project = project
 

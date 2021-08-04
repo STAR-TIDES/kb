@@ -11,6 +11,7 @@ from flask import request, current_app
 import base64
 import jwt
 from http import HTTPStatus
+import traceback
 
 
 class Controller(metaclass=ABCMeta):
@@ -47,9 +48,11 @@ class Controller(metaclass=ABCMeta):
             res = self.process_request()
             http_code = HTTPStatus.OK
         except StarTidesException as e:
+            traceback.print_exc()
             res = StarTidesException.as_dict(e)
             http_code = e.http_code
         except Exception as e:  # pylint: disable=broad-except
+            traceback.print_exc()
             res = {
                 'error': str(e),
                 'errorClass': e.__class__.__name__,

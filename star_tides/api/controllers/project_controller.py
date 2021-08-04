@@ -1,8 +1,10 @@
 '''star_tides.api.controllers.project_controller
 '''
 
+from star_tides.services.databases.mongo.schemas.project_schema import ProjectSchema
+from star_tides.core.data.project_data import ProjectData
+from star_tides.core.actions.update_project_action import UpdateProjectAction
 from star_tides.core.actions.delete_project_action import DeleteProjectAction
-from star_tides.core.data.contact_data import ContactData
 from star_tides.core.actions.create_project_action import CreateProjectAction
 from star_tides.core.actions.list_projects_action import ListProjectsAction
 from star_tides.api.controllers.base_controller import Controller
@@ -35,7 +37,8 @@ class CreateProjectController(Controller):
         if not body:
             raise InvalidParamError('Expected JSON body to be present.')
         json_body = snake_case_dict(body)
-        parsed_project = ContactData(**json_body)
+        ProjectSchema().validate(json_body)
+        parsed_project = ProjectData(**json_body)
         created_project = CreateProjectAction(parsed_project).run()
         return created_project._asdict()
 
@@ -51,9 +54,19 @@ class DeleteProjectController(Controller):
 
 
 class UpdateProjectController(Controller):
+    '''UpdateProjectController takes an existing Project ID and an update JSON
+    payload from the request body and updates the corresponding Project in the
+    database.
+    '''
+
     def __init__(self, project_id) -> None:
         self.project_id = project_id
 
     def process_request(self):
         validate_document_id(self.project_id)
-        return {}  # FIXME(ljr).
+        body = self.get_request_body()
+        if not body:
+            raise InvalidParamError('Expected JSON body to be present.')
+        json_body = snake_case_dict(body)
+        updated_project = UpdateProjectAction(self.project_id, json_body).run()
+        return updated_project._asdict()

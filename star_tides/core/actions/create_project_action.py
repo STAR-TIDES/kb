@@ -1,6 +1,7 @@
 '''star_tides.core.actions.create_project_action
 '''
 
+from marshmallow.exceptions import ValidationError
 from star_tides.services.databases.mongo.schemas.project_schema import ProjectSchema
 from star_tides.services.databases.mongo.models.project_model import ProjectModel
 from star_tides.core.actions.base_action import Action
@@ -15,6 +16,11 @@ class CreateProjectAction(Action):
     def run(self):
         if self.project.id is not None:
             raise InvalidParamError('Expected project not to have ID.')
-        schema = ProjectSchema().load(self.contact._asdict())
+        schema = {}
+        try:
+            schema = ProjectSchema().load(self.project._asdict())
+        except ValidationError as e:
+            raise InvalidParamError(
+                f'Failed to validate using schema: {e.messages}') from e
         saved_model = ProjectModel(**schema, _created=True).save()
         return ProjectData.from_model(saved_model)

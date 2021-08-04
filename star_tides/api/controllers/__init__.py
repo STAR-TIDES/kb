@@ -23,7 +23,7 @@ def build_response(response: ControllerResponse) -> Response:
             Response - a flask response mimetyped to application/json
     '''
     return Response(
-        json.dumps(response.response),
+        json.dumps(response.response) + '\n',
         mimetype='application/json',
         status=response.http_code
     )
@@ -39,18 +39,20 @@ def validate_document_id(given_id: str) -> None:
     '''
     all_hex = all(c in string.hexdigits for c in given_id)
     if not (all_hex and len(given_id) == _OBJECT_ID_LENGTH):
-        # TODO(38): Throw a better exception that signals an HTTP invalid
-        # argument code.
         raise InvalidParamError(
             f'expected `{given_id}` to be a 24 character hex string')
 
 
-_snake_case_pattern = re.compile(r'(?<!^)(?=[A-Za-z])')
+_snake_case_pattern = re.compile(r'(?<!^)(?=[A-Z])')
 
 
 def _to_snake_case(s: str) -> str:
     return _snake_case_pattern.sub('_', s).lower()
 
 
+# This function is used to convert JSON payload keys into snake_case from
+# standard camelCase.
+# TODO(ljr): We should probably just be using this marshmallow functionality:
+# https://marshmallow.readthedocs.io/en/stable/examples.html#inflection-camel-casing-keys
 def snake_case_dict(d: dict) -> dict:
-    return {_to_snake_case(k): v for k, v in d}
+    return {_to_snake_case(k): v for (k, v) in d.items()}

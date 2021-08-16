@@ -4,8 +4,8 @@ Contains the base class for all Controllers.
 
 '''
 from abc import ABCMeta, abstractmethod
-from star_tides.api.util.issue_jwt import get_email_from_jwt
 from flask import request, current_app
+from star_tides.api.util.issue_jwt import get_email_from_jwt
 from star_tides.exceptions import StarTidesException
 from star_tides.api.controllers import build_response, ControllerResponse
 import base64

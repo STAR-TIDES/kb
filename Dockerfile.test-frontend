@@ -1,0 +1,23 @@
+FROM node:12.22-stretch as node_builder
+
+# Copy over the files to set up the /app working directory.
+WORKDIR /app
+COPY . .
+WORKDIR /app/frontend/star-tides/
+
+# Install the necessary Node and Angular CLIs.
+RUN npm i --no-verbose
+RUN npm i -g @angular/cli@latest 
+RUN npm i @angular-devkit/build-angular@latest
+
+# Now, install Google Chrome.
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN apt-get update && apt-get install -y google-chrome-stable
+# TODO(ljr): Can we get this smaller zenika Chrome to work?
+# How do we install it/only use it for downloading Chrome?
+# COPY --from=zenika/alpine-chrome . .
+
+# Finally, run the frontend tests.
+RUN ng test --watch=false --browsers=ChromeHeadlessNoSandbox
+

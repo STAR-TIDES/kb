@@ -106,7 +106,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+# NOTE(ljr): GCB won't upload the .env file that docker-compose needs if it's listed here.
+# .env
 .venv
 env/
 venv/

@@ -1,0 +1,13 @@
+# This is the Google Cloud Build file used for presubmit checks on PRs or
+# other untrusted code before it enters the main branch.
+
+steps:
+  # First, lint the Python code.
+  - name: 'gcr.io/$PROJECT_ID/pylint'
+    args: ['--rcfile=./pylintrc', './star_tides']
+  # Next, run the backend tests.
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ['build', 'test-backend']
+  # Finally, run the frontend tests.
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ['build', 'test-frontend']

@@ -1,3 +1,6 @@
+# This is the Dockerfile used for developing the backend locally
+# since it allows us to take advantage of hot-reloading functionality
+# in docker-compose.
 FROM python:3.7-stretch
 COPY ./star_tides/requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt

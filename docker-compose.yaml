@@ -34,10 +34,11 @@ services:
       ports:
         # Available on host port 5000, broadcasting on container port 5000.
         - 5000:5000  
-  test: # Same as the star-tides service but used for testing the backend
+  # Same as the star-tides service but used for specifically testing the backend.
+  test-backend: 
     build:
       context: ./
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.test-backend
     env_file:
       - .env
     restart: "no"
@@ -47,6 +48,17 @@ services:
                 # before launching the test service
       - mongodb_container
     command: bash -c "cd /app && pytest -s star_tides/"
+  # For specifically testing the frontend code.
+  test-frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile.test-frontend
+    env_file:
+      - .env
+    restart: "no"
+    volumes:
+      - ./:/app
+    command: bash -c "cd /app/frontend/star-tides && ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
   mongodb_container: # Container that runs the database. This is persistent
                      # Over restarts because of the named volume. To reset
                      # the database, look up removing a named docker volume.

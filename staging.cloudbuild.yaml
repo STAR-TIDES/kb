@@ -1,0 +1,52 @@
+# This is the Google Cloud Build YAML file to build images intended for staging environments.
+# In other words, live environments that do not impact or talk to the user-facing prod environment.
+
+steps:
+  # First, lint the Python code.
+  - name: 'gcr.io/$PROJECT_ID/pylint'
+    args: ['--rcfile=./pylintrc', './star_tides']
+  # Next, run the backend tests.
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ['build', 'test-backend']
+  # Next, run the frontend tests.
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ['build', 'test-frontend']
+  # Next, build the production Docker image.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+    - 'build'
+    - '--file=Dockerfile.prod'
+    - '--tag=${_REGISTRY}/st-kb-staging:${_TAG_NAME}'
+    - '--tag=${_REGISTRY}/st-kb-staging:latest'
+    - '.'
+  # Next, push the newly built image to the registry.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_REGISTRY}/st-kb-staging:latest']
+  # Finally, push the image to Cloud Run.
+  # - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+    - '--project=${PROJECT_ID}'
+    - 'run'
+    - 'deploy'
+    - '${_SERVICE_NAME}-staging'
+    - '--platform=managed'
+    - '--region=${_REGION}'
+    - '--allow-unauthenticated'
+    - '--image=${_REGISTRY}/st-kb-staging:latest'
+    - '--update-env-vars=_VERSION_TAG=${_TAG_NAME},_VERSION_BUILD=${BUILD_ID}'
+
+# Default timeout is 20 minutes.
+timeout: 1200s
+
+options:
+  dynamic_substitutions: true
+
+substitutions:
+  _REGISTRY: gcr.io/${PROJECT_ID}
+  _REGION: us-east1
+  _SERVICE_NAME: st-kb-service
+  _TAG_NAME: "${TAG_NAME:-tagless-for-testing}"
+
+tags:
+- staging

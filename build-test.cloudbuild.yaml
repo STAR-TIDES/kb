@@ -11,3 +11,6 @@ steps:
   # Finally, run the frontend tests.
   - name: 'gcr.io/$PROJECT_ID/docker-compose'
     args: ['build', 'test-frontend']
+
+tags:
+- build-test

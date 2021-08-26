@@ -6,6 +6,7 @@ Contains application factory for the flask app.
 from flask import Flask
 from mongoengine import connect
 from star_tides.api.blueprint import bp
+from star_tides.api.routes.base_route import base
 from star_tides.api.routes.auth_route import auth
 from star_tides.api.routes.contact_route import contact
 import os
@@ -23,6 +24,7 @@ def create_app():
     )
 
     app.register_blueprint(bp)
+    app.register_blueprint(base)
     app.register_blueprint(auth)
     app.register_blueprint(contact)
 

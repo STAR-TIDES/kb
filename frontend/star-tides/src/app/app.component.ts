@@ -10,15 +10,13 @@ export class AppComponent {
   title = 'star-tides';
   name = 'World';
 
-  constructor(private route: ActivatedRoute) {
-    console.log('reporting for duty!');
-  }
+  // constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (!!params['name']) {
-        this.name = params['name'];
-      }
-    });
-  }
+  // ngOnInit() {
+  //   this.route.queryParams.subscribe(params => {
+  //     if (!!params['name']) {
+  //       this.name = params['name'];
+  //     }
+  //   });
+  // }
 }

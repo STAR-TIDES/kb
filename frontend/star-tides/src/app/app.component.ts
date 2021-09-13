@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,6 +10,11 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent {
   title = 'star-tides';
   name = 'World';
+
+  drawerClick(drawer: MatDrawer) {
+    console.log(drawer);
+    drawer.toggle();
+  }
 
   // constructor(private route: ActivatedRoute) {}
 

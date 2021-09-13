@@ -9,7 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 export class ResponsiveDemoComponent implements OnInit {
   name = 'World';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+    console.log('hello world!');
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

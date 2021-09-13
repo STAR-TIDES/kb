@@ -1,26 +1,25 @@
-<div>
-  <div class='title' fxLayout='column'>
-    <h1>Welcome to the {{title}} app!</h1>
+<div class='root'>
+  <div class='header-container'>
+    <mat-toolbar color="primary" role="heading">
+      <button mat-icon-button aria-label="Menu icon" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>STAR-TIDES Knowledge Base</span>
+    </mat-toolbar>
   </div>
-  <div class='greeting' fxLayout='column'>
-    <div>
-      <h2>Aloha {{name}}!</h2>
-    </div>
-    <div fxLayout='row'>
-      <div fxFlex='50'>BIG</div>
-      <div fxFlex='25'>small</div>
-      <div fxFlex='25'>also small</div>
-    </div>
+  <div class="main-container">
+    <mat-drawer-container>
+      <mat-drawer #drawer mode="side" class="side-menu">
+        Some menu content.
+      </mat-drawer>
+      <div class='main-content'>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-container>
   </div>
-  <div fxLayout=row>
-    <div fxFlex='33'></div>
-    <div fxFlex='33' fxLayoutAlign='center'>
-      <button mat-raised-button color='primary'>Does Nothing!</button>
-    </div>
-    <div fxFlex='33' class='fill-blue'><pre>blue background!</pre></div>
+  <div class='footer-container'>
+    <mat-toolbar color="primary" role="footer" class='footer'>
+      <span>Footer</span>
+    </mat-toolbar>
   </div>
-  <div class='column'>
-    <h3>Below you will find router-based content:</h3>
-  </div>
-  <router-outlet></router-outlet>
 </div>

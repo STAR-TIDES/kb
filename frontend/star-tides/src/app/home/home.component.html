@@ -1,0 +1,11 @@
+<div class='home-content'>
+    <h1>Welcome to the STAR-TIDES Knowledge Base</h1>
+    <h2>
+        Using this tool, you can search our database of
+        contacts, projects, grants, guides, and more!
+    </h2>
+    <mat-form-field>
+        <mat-label>Search the Knowledge Base</mat-label>
+        <input matInput placeholder="Search..." [formControl]="searchControl" (ngOnSubmit)="onSubmit()">
+    </mat-form-field>
+</div>

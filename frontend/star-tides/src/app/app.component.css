@@ -17,3 +17,24 @@ mat-drawer-container {
 .side-menu {
     padding: 5px;
 }
+
+.menu-item {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.menu-item > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item span {
+    text-align: center;
+    padding: 5px;
+}
+
+.header-home-link {
+    text-decoration: none;
+    color: white;
+}

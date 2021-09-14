@@ -5,13 +5,28 @@
       <button mat-icon-button aria-label="Menu icon" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>STAR-TIDES Knowledge Base</span>
+      <span><a routerLink='/home' class='header-home-link'>STAR-TIDES Knowledge Base</a></span>
     </mat-toolbar>
   </div>
   <div class="main-container" fxFlex>
     <mat-drawer-container>
       <mat-drawer #drawer mode="side" class="side-menu">
-        Some menu content.
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/home'>Home</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Contacts icon">contacts</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/contacts'>Contacts</a></span>
+          </div>
+        </div>
       </mat-drawer>
       <div class='main-content'>
         <router-outlet></router-outlet>

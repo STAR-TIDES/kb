@@ -8,21 +8,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'star-tides';
-  name = 'World';
+  now = new Date();
 
   drawerClick(drawer: MatDrawer) {
     console.log(drawer);
     drawer.toggle();
   }
-
-  // constructor(private route: ActivatedRoute) {}
-
-  // ngOnInit() {
-  //   this.route.queryParams.subscribe(params => {
-  //     if (!!params['name']) {
-  //       this.name = params['name'];
-  //     }
-  //   });
-  // }
 }

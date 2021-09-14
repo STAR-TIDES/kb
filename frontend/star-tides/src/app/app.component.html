@@ -1,4 +1,5 @@
-<div class='root'>
+<!--This header/footer layout comes from https://stackoverflow.com/a/56422126. -->
+<div class='root' fxLayout='column' fxFlexFill>
   <div class='header-container'>
     <mat-toolbar color="primary" role="heading">
       <button mat-icon-button aria-label="Menu icon" (click)="drawer.toggle()">
@@ -7,7 +8,7 @@
       <span>STAR-TIDES Knowledge Base</span>
     </mat-toolbar>
   </div>
-  <div class="main-container">
+  <div class="main-container" fxFlex>
     <mat-drawer-container>
       <mat-drawer #drawer mode="side" class="side-menu">
         Some menu content.
@@ -19,7 +20,7 @@
   </div>
   <div class='footer-container'>
     <mat-toolbar color="primary" role="footer" class='footer'>
-      <span>Footer</span>
+      <span>© STAR-TIDES, 2021-{{ now | date: 'YYYY' }}</span>
     </mat-toolbar>
   </div>
 </div>

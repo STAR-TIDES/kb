@@ -55,6 +55,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
+import { AboutComponent } from './about/about.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { ContactDetailComponent } from './contact-detail/contact-detail.componen
     ProjectListComponent,
     ProjectDetailComponent,
     ContactListComponent,
-    ContactDetailComponent
+    ContactDetailComponent,
+    AboutComponent
   ],
   imports: [
     A11yModule,

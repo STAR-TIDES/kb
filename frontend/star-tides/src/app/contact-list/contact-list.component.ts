@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Contact } from '../data/contact';
+import { KnowledgeBaseInterface } from '../knowledge-base-service-interface';
+import { KnowledgeBaseService } from '../knowledge-base.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -6,10 +9,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contact-list.component.css']
 })
 export class ContactListComponent implements OnInit {
+  contacts: Contact[] = [];
 
-  constructor() { }
+  constructor(private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
+    this.client.listContacts().subscribe(cs => this.contacts = cs);
   }
-
 }

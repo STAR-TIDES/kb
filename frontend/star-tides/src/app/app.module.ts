@@ -56,6 +56,8 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 import { AboutComponent } from './about/about.component';
+import { GuideListComponent } from './guide-list/guide-list.component';
+import { GuideDetailComponent } from './guide-detail/guide-detail.component';
 
 
 @NgModule({
@@ -67,7 +69,9 @@ import { AboutComponent } from './about/about.component';
     ProjectDetailComponent,
     ContactListComponent,
     ContactDetailComponent,
-    AboutComponent
+    AboutComponent,
+    GuideListComponent,
+    GuideDetailComponent
   ],
   imports: [
     A11yModule,

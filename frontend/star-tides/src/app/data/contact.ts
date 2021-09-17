@@ -1,4 +1,5 @@
 import { Availability } from "./availability";
+import { Engagement } from "./engagement";
 import { Location } from "./location";
 
 export interface Contact {
@@ -13,4 +14,5 @@ export interface Contact {
     websiteURL?: String;
     languages: String[];
     statuses: String[];
+    engagement: Engagement;
 }

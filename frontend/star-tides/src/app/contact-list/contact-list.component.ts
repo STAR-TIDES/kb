@@ -14,6 +14,6 @@ export class ContactListComponent implements OnInit {
   constructor(private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
-    this.client.listContacts().subscribe(cs => this.contacts = cs);
+    this.client.listContacts().subscribe(cs => this.contacts = cs, err => console.error(err));
   }
 }

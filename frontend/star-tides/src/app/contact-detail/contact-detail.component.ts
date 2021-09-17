@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Availability } from '../data/availability';
 import { Contact } from '../data/contact';
 import { KnowledgeBaseInterface } from '../knowledge-base-service-interface';
 import { KnowledgeBaseService } from '../knowledge-base.service';
@@ -25,5 +26,9 @@ export class ContactDetailComponent implements OnInit {
         return throwError('id not present from route');
       }
     })).subscribe(contact => this.contact = contact, err => console.error(err));
+  }
+
+  contactIsAvailable(): boolean {
+    return this.contact?.availability == Availability.Available;
   }
 }

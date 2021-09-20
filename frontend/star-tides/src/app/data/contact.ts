@@ -16,3 +16,8 @@ export interface Contact {
     statuses: String[];
     engagement: Engagement;
 }
+
+export interface ContactNameAndId {
+    id?: string;
+    name: string;
+}

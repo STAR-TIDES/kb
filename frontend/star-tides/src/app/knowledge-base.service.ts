@@ -6,6 +6,7 @@ import { single } from 'rxjs/operators';
 import { KnowledgeBaseInterface } from './knowledge-base-service-interface';
 import { Availability } from './data/availability';
 import { ContactListComponent } from './contact-list/contact-list.component';
+import { Project, ProjectStatus } from './data/project';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,43 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
     }
   ];
 
+  fakeProjects: Project[] = [{
+    id: '1',
+    name: 'Delivering Digital Capacity',
+    contacts: [{ id: '1', name: 'Leo Rudberg' }, { name: 'Darth Vader' }],
+    summary: 'Doing awesome work with technology!',
+    engagement: {
+      locations: [{ iso31661CountryCode: 840, arbitraryText: 'New York City' }],
+      focuses: ['Digital Capacity'],
+      backgrounds: ['Foo'],
+      areasOfInterest: ['Bar'],
+    },
+    location: { iso31661CountryCode: 840, arbitraryText: 'New York City' },
+    status: ProjectStatus.Completed,
+    updates: [
+      { content: 'Started!', timestamp: new Date('2021-01-02'), userId: '1', requestingContactId: '2' },
+      { content: 'Midpoint', timestamp: new Date('2021-05-06'), userId: '1' },
+      { content: 'Completed!', timestamp: new Date('2021-09-01'), userId: '1', requestingContactId: '1' },
+    ]
+  }, {
+    id: '2',
+    name: 'Water Here!',
+    contacts: [{ name: 'Marco Polo' }, { name: 'Squidward Tentacles', id: '2' }],
+    summary: 'Bringing water to your crops.',
+    engagement: {
+      locations: [
+        { iso31661CountryCode: 123, arbitraryText: 'Some Place' },
+        { iso31661CountryCode: 456, arbitraryText: 'Some Other Place' }
+      ],
+      focuses: ['Agriculture', 'Water', 'Health and Sanitation'],
+      backgrounds: ['Government', 'Research'],
+      areasOfInterest: ['Agriculture'],
+    },
+    location: { iso31661CountryCode: 123, arbitraryText: 'Some Place' },
+    status: ProjectStatus.InProgressHelpWanted,
+    solutionCosts: 'Water pumps for __$200 each__.'
+  }];
+
   constructor() { }
 
   getContact(id: string): Observable<Contact> {
@@ -77,5 +115,17 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
 
   deleteContact(id: string): Observable<{}> {
     throw new Error('unimplemented');
+  }
+
+  getProject(id: string): Observable<Project> {
+    const project = this.fakeProjects.find(p => p.id == id);
+    if (project) {
+      return of(project);
+    }
+    return throwError(new Error(`project with id ${id} not found`));
+  }
+
+  listProject(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
+    return of(this.fakeProjects);
   }
 }

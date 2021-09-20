@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Availability } from '../data/availability';
@@ -15,17 +15,18 @@ import { KnowledgeBaseService } from '../knowledge-base.service';
 export class ContactDetailComponent implements OnInit {
   contact?: Contact;
 
-  constructor(private route: ActivatedRoute, private client: KnowledgeBaseService) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
-    this.route.params.pipe(switchMap(params => {
-      const id: string | undefined = params['id'];
-      if (id) {
-        return this.client.getContact(id);
-      } else {
-        return throwError('id not present from route');
-      }
-    })).subscribe(contact => this.contact = contact, err => console.error(err));
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (!id) {
+      console.error('id not present in route');
+      this.router.navigate(['/contacts']);
+    }
+
+    this.client.getContact(id!).subscribe(
+      contact => this.contact = contact,
+      err => console.error(err));
   }
 
   contactIsAvailable(): boolean {

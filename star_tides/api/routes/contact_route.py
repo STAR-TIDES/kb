@@ -2,7 +2,7 @@
 '''
 
 from star_tides.api.controllers.contact_controller import CreateContactController, DeleteContactController, GetContactController, ListContactsController, UpdateContactController
-from star_tides.api.routes import build_response
+from star_tides.api.decorators.login_required import login_required
 from flask import Blueprint
 
 contact = Blueprint('contact', __name__, url_prefix='/contacts')
@@ -10,27 +10,27 @@ contact = Blueprint('contact', __name__, url_prefix='/contacts')
 
 @contact.route('/', methods=['GET'])
 def list_contacts():
-    return build_response(ListContactsController().execute())
+    return ListContactsController().execute()
 
 
 @contact.route('/<contact_id>', methods=['GET'])
 def get_contact(contact_id: str):
-    return build_response(GetContactController(contact_id).execute())
+    return GetContactController(contact_id).execute()
 
 
 @contact.route('/', methods=['POST'])
+@login_required
 def create_contact():
-    # FIXME(ljr): Add login_required.
-    return build_response(CreateContactController().execute())
+    return CreateContactController().execute()
 
 
 @contact.route('/<contact_id>', methods=['DELETE'])
+@login_required
 def delete_contact(contact_id: str):
-    # FIXME(ljr): Add login_required.
-    return build_response(DeleteContactController(contact_id).execute())
+    return DeleteContactController(contact_id).execute()
 
 
 @contact.route('/<contact_id>', methods=['PUT'])
+@login_required
 def update_contact(contact_id: str):
-    # FIXME(ljr): Add login_required.
-    return build_response(UpdateContactController(contact_id).execute())
+    return UpdateContactController(contact_id).execute()

@@ -5,6 +5,7 @@ from star_tides.services.databases.mongo.schemas.contact_schema import ContactSc
 from star_tides.services.databases.mongo.models.contact_model import ContactModel
 from star_tides.core.data.contact_data import ContactData
 from star_tides.core.actions.base_action import Action
+from star_tides.exceptions import InvalidParamError
 
 
 class CreateContactAction(Action):
@@ -16,11 +17,11 @@ class CreateContactAction(Action):
     def __init__(self, contact: ContactData,
                  unused_caller_user_email: str) -> None:
         self.contact = contact
-        print(f'got contact! {contact}')
 
     def run(self):
         if self.contact.id is not None:
-            raise Exception('expected contact not to have ID')
+            raise InvalidParamError(
+                response_msg='Expected contact not to have ID.')
         # TODO(i/15): Add this back in once ContactSchema works with the
         # update_timestamps field.
         #

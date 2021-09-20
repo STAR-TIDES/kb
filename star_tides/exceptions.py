@@ -4,6 +4,7 @@
 # pragma pylint: disable=E1124
 
 from http import HTTPStatus
+import http
 
 
 # LOG LEVELS
@@ -26,6 +27,7 @@ class StarTidesException(Exception):
             severity - log level
             http_code - error code returned to client
     '''
+
     def __init__(
         self,
         error_class: str,
@@ -52,11 +54,15 @@ class InvalidParamError(StarTidesException):
     def __init__(self,
                  response_msg='Invalid parameters received',
                  logging_msg=None,
-                 severity=SEVERITY_ERROR, http_code=HTTPStatus.BAD_REQUEST
-    ):
+                 severity=SEVERITY_ERROR,
+                 http_code=HTTPStatus.BAD_REQUEST
+                 ):
         super().__init__(
-            self.__class__.__name__, response_msg, severity,
-            http_code, logging_msg=logging_msg
+            error_class=self.__class__.__name__,
+            response_msg=response_msg,
+            severity=severity,
+            http_code=http_code,
+            logging_msg=logging_msg,
         )
 
 # Database Errors
@@ -67,7 +73,7 @@ class RecordDoesNotExistError(StarTidesException):
                  response_msg='Record does not exist in database',
                  logging_msg=None,
                  severity=SEVERITY_ERROR, http_code=HTTPStatus.NOT_FOUND
-    ):
+                 ):
         super().__init__(
             self.__class__.__name__, response_msg, severity,
             http_code, logging_msg=logging_msg
@@ -82,12 +88,19 @@ class ActionError(StarTidesException):
                  logging_msg=None,
                  severity=SEVERITY_ERROR,
                  http_code=HTTPStatus.INTERNAL_SERVER_ERROR
-    ):
+                 ):
         super().__init__(
-            self.__class__name__, response_msg, severity,
-            http_code, logging_msg=None
+            self.__class__.__name__, response_msg, severity,
+            http_code, logging_msg=logging_msg
         )
 
+
+class NotFoundError(StarTidesException):
+    def __init__(self,  response_msg: str, severity=SEVERITY_ERROR):
+        super().__init__(self.__class__.__name__,
+                         response_msg,
+                         severity=severity,
+                         http_code=http.HTTPStatus.NOT_FOUND)
 
 # Auth Errors
 
@@ -98,7 +111,7 @@ class AuthenticationError(StarTidesException):
                  logging_msg=None,
                  severity=SEVERITY_ERROR,
                  http_code=HTTPStatus.UNAUTHORIZED
-    ):
+                 ):
         super().__init__(
             self.__class__name__, response_msg, severity,
             http_code, logging_msg=logging_msg

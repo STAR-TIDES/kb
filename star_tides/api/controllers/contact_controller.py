@@ -1,11 +1,12 @@
 '''star_tides.api.controllers.contact_controller
 '''
 
+from star_tides.exceptions import InvalidParamError
 from star_tides.core.actions.update_contact_action import UpdateContactAction
 from star_tides.core.actions.delete_contact_action import DeleteContactAction
 from star_tides.core.data.contact_data import ContactData
 from star_tides.core.actions.create_contact_action import CreateContactAction
-from star_tides.api.controllers import validate_document_id
+from star_tides.api.controllers import snake_case_dict, validate_document_id
 from star_tides.core.actions.get_contact_action import GetContactAction
 from star_tides.core.actions.list_contacts_action import ListContactsAction
 from star_tides.api.controllers.base_controller import Controller
@@ -30,8 +31,13 @@ class GetContactController(Controller):
 
 
 class CreateContactController(Controller):
+    '''Creates a Contact in the DB given the JSON body in the request.'''
+
     def process_request(self) -> dict:
-        json_body = self.get_request_body()
+        body = self.get_request_body()
+        if not body:
+            raise InvalidParamError('Expected JSON body to be present.')
+        json_body = snake_case_dict(body)
         # TODO(ljr): Pass to ContactSchema first?
         parsed_contact = ContactData(**json_body)
         created_contact = CreateContactAction(

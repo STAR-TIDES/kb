@@ -5,6 +5,7 @@ import { ContactListComponent } from './contact-list/contact-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
 import { GuideListComponent } from './guide-list/guide-list.component';
 import { HomeComponent } from './home/home.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.component';
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'guides/:id', component: GuideDetailComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '*', component: HomeComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

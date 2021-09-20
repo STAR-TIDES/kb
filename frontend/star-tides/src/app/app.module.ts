@@ -58,6 +58,7 @@ import { ContactDetailComponent } from './contact-detail/contact-detail.componen
 import { AboutComponent } from './about/about.component';
 import { GuideListComponent } from './guide-list/guide-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { GuideDetailComponent } from './guide-detail/guide-detail.component';
     ContactDetailComponent,
     AboutComponent,
     GuideListComponent,
-    GuideDetailComponent
+    GuideDetailComponent,
+    PageNotFoundComponent
   ],
   imports: [
     A11yModule,

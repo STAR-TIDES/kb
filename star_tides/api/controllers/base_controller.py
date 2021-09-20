@@ -4,9 +4,13 @@ Contains the base class for all Controllers.
 
 '''
 from abc import ABCMeta, abstractmethod
+from star_tides.api.util.issue_jwt import get_email_from_jwt
 from flask import request, current_app
+from star_tides.exceptions import StarTidesException
+from star_tides.api.controllers import build_response, ControllerResponse
 import base64
 import jwt
+from http import HTTPStatus
 
 
 class Controller(metaclass=ABCMeta):
@@ -32,22 +36,26 @@ class Controller(metaclass=ABCMeta):
     * decode_basic_auth
     and more to come!
     '''
+
     def execute(self):
-        try: # pylint: disable=broad-except
+        try:  # pylint: disable=broad-except
             # log_dict = {'class_name': self.__class__.__name__,
             #             'endpoint': request.url,
             #             'request_method': request.method}
-            # TODO: Convert to logging when logs are implemented. Issue 38
-            response = self.process_request()
+            # TODO: Convert to logging when logs are implemented. Issue 27
+            # number.
+            res = self.process_request()
+            http_code = HTTPStatus.OK
+        except StarTidesException as e:
+            res = StarTidesException.as_dict(e)
+            http_code = e.http_code
+        except Exception as e:  # pylint: disable=broad-except
+            res = {'error': str(e)}
+            http_code = HTTPStatus.INTERNAL_SERVER_ERROR
 
+        response = ControllerResponse(response=res, http_code=http_code)
 
-        # TODO: Handle custom exceptions Issue 38
-
-        # TODO: Handle system exceptions Issue 38
-        except Exception as e:
-            raise e
-
-        return response
+        return build_response(response)
 
     @abstractmethod
     def process_request(self):
@@ -67,7 +75,7 @@ class Controller(metaclass=ABCMeta):
 
     @staticmethod
     def process_basic_auth():
-        try: # pylint: disable=broad-except
+        try:  # pylint: disable=broad-except
             auth = request.headers.get('Authorization')
             encoded = auth.split(' ')[1]
             username, password = Controller.decode_basic_auth(encoded)
@@ -116,4 +124,6 @@ class Controller(metaclass=ABCMeta):
 
         return decoded_jwt
 
-
+    @staticmethod
+    def get_caller_user_email():
+        return get_email_from_jwt(Controller.decode_jwt())

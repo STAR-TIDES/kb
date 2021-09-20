@@ -46,7 +46,7 @@ services:
     depends_on: # means that docker-compose up test will start the mongodb_container service
                 # before launching the test service
       - mongodb_container
-    command: bash -c "cd /app && pytest star_tides/"
+    command: bash -c "cd /app && pytest -s star_tides/"
   mongodb_container: # Container that runs the database. This is persistent
                      # Over restarts because of the named volume. To reset
                      # the database, look up removing a named docker volume.

@@ -16,6 +16,7 @@ class Action(metaclass=ABCMeta):
     Invocation:
         resp = ChildClassAction(*args, **kwargs).execute()
     '''
+
     def execute(self):
         return self.run()
 
@@ -24,3 +25,6 @@ class Action(metaclass=ABCMeta):
         ''' Must be implemented on every child class.
         '''
         pass
+
+    def get_caller_user_id(self):
+        return 'some-user' # FIXME

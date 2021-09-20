@@ -27,7 +27,7 @@ class CreateUserAction(Action):
         self.email = email
         self.password = password
 
-    def run(self):
+    def run(self) -> dict:
         salt = bcrypt.gensalt()
         self.password = self.password.encode('utf-8')
         pw_hash = bcrypt.hashpw(self.password, salt)

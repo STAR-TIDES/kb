@@ -29,8 +29,6 @@ def create_app():
              f'{db_domain}:{db_port}/{db_name}?authSource={db_auth_source}'
     )
 
-    print(f'Resp is: {resp}')
-
     app.register_blueprint(bp)
     app.register_blueprint(auth)
     app.register_blueprint(contact)

@@ -4,6 +4,7 @@ This module contains constants to be used throughout the star_tides application.
 
 '''
 
+import enum
 import string
 
 # All ascii letters (not special chars) and numbers 0-9 for generating
@@ -11,9 +12,9 @@ import string
 ALPHABET = string.ascii_letters + string.digits
 
 
-class UserTypes:
+class UserTypes(enum.Enum):
     ''' Basic enum containing the types of authenticated users.
     '''
-    COLLABORATOR=0
-    ADMIN=1
-    ALL=[COLLABORATOR, ADMIN]
+    UNSPECIFIED = 0
+    COLLABORATOR = 1
+    ADMIN = 2

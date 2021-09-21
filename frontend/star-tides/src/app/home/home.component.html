@@ -4,8 +4,15 @@
         Search our database of
         contacts, projects, guides, and more!
     </h2>
-    <mat-form-field>
-        <mat-label>Search the Knowledge Base</mat-label>
-        <input matInput placeholder="Search..." [formControl]="searchControl" (ngOnSubmit)="onSubmit()">
-    </mat-form-field>
+    <div class='search-box'>
+        <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
+            <mat-form-field aria-autocomplete="none" autocomplete="false" appearance="outline">
+                <mat-label>Search the Knowledge Base</mat-label>
+                <input matInput placeholder="Search..." type="text" autocomplete="false" name="search" ngModel>
+                <button type="button" mat-icon-button matSuffix (click)="onSubmit(searchForm)">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </div>
 </div>

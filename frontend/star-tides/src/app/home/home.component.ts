@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +8,18 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  searchControl = new FormControl('');
+
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.searchControl.statusChanges.subscribe((data) => {
-      console.log(data, this.searchControl.value);
-    });
-  }
 
-  onSubmit() {
-    console.log(`SUBMIT! ${this.searchControl.value}`);
+  }
+  onSubmit(searchForm: NgForm) {
+    let query: string = searchForm.value?.search;
+    if (!query) {
+      query = '';
+    }
+
+    this.router.navigate(['/query', query]);
   }
 }

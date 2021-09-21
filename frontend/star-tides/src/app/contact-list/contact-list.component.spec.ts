@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FakeKnowledgeBaseService } from '../fake-knowledge-base-service';
 import { KnowledgeBaseService } from '../knowledge-base.service';
 

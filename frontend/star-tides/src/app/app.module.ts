@@ -46,7 +46,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { NgModule } from '@angular/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -64,7 +63,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 @NgModule({
   declarations: [
     AppComponent,
-    ResponsiveDemoComponent,
     HomeComponent,
     ProjectListComponent,
     ProjectDetailComponent,

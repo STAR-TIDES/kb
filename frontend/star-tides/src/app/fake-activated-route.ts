@@ -1,20 +1,14 @@
 import { ValueProvider } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, ParamMap, Params } from "@angular/router";
 import { Observable, of } from "rxjs";
 
 export class FakeActivatedRouteProvider implements ValueProvider {
-    private queryParams: Observable<Params> = of();
-    private params: Observable<Params> = of();
+    private paramMap: ParamMap = (new Map()) as unknown as ParamMap;
 
-    useValue = { queryParams: this.queryParams, params: this.params };
+    useValue = { snapshot: { paramMap: this.paramMap } };
     provide = ActivatedRoute;
 
-
-    setQueryParams(queryParams: Observable<Params>) {
-        this.queryParams = queryParams;
-    }
-
-    setParams(params: Observable<Params>) {
-        this.params = params;
+    setParamMap(paramMap: ParamMap) {
+        this.paramMap = paramMap;
     }
 }

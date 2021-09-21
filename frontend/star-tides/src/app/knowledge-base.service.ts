@@ -125,7 +125,7 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
     return throwError(new Error(`project with id ${id} not found`));
   }
 
-  listProject(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
+  listProjects(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
     return of(this.fakeProjects);
   }
 }

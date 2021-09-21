@@ -9,5 +9,5 @@ export interface KnowledgeBaseInterface {
     deleteContact(id: string): Observable<{}>;
 
     getProject(id: string): Observable<Project>;
-    listProject(query?: string, pageToken?: string, pageSize?: number): Observable<Project[]>;
+    listProjects(query?: string, pageToken?: string, pageSize?: number): Observable<Project[]>;
 }

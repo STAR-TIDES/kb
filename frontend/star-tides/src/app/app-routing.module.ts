@@ -8,11 +8,9 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ProjectListComponent } from './project-list/project-list.component';
-import { ResponsiveDemoComponent } from './responsive-demo/responsive-demo.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'responsive-demo', component: ResponsiveDemoComponent },
   { path: 'contacts/:id', component: ContactDetailComponent },
   { path: 'contacts', component: ContactListComponent },
   { path: 'projects/:id', component: ProjectDetailComponent },

@@ -13,7 +13,7 @@ export class ProjectListComponent implements OnInit {
   constructor(private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
-    this.client.listProject().subscribe(
+    this.client.listProjects().subscribe(
       projects => this.projects = projects,
       err => console.error(err),
     )

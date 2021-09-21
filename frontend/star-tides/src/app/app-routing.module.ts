@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ProjectListComponent } from './project-list/project-list.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +18,8 @@ const routes: Routes = [
   { path: 'projects', component: ProjectListComponent },
   { path: 'guides', component: GuideListComponent },
   { path: 'guides/:id', component: GuideDetailComponent },
+  { path: 'query', component: SearchResultsComponent },
+  { path: 'query/:query', component: SearchResultsComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '*', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent },

@@ -20,7 +20,9 @@ COPY . .
 COPY --from=node_builder /app/frontend/star-tides/dist/star-tides /app/static
 RUN pip3 install -q -r star_tides/requirements.txt
 # CMD python3 run.py
-# FIXME(ljr): I think this CMD above is now a no-op?
+# TODO(ljr): I think this CMD above is now a no-op?
+# We would like to have the Python code running, 
+# but ultimately start up the Nginx reverse proxy as well.
 
 FROM nginx:latest as nginx_builder
 COPY . .
@@ -30,11 +32,13 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 # ENTRYPOINT [ "python3", "run.py" ]
 # CMD python3 run.py
 #
-# FIXME(ljr): I don't think these ENTRYPOINTs or CMDs work since this is in the nginx phase/step of a
+# TODO(ljr): I don't think these ENTRYPOINTs or CMDs work since this is in the nginx phase/step of a
 # multi-step build and not the Python phase/step.
 # Perhaps the app isn't starting?
 
 FROM python_builder
 WORKDIR /app
 CMD python3 run.py
-# FIXM(ljr): How do we not use werkzeug? We get the warning from Flask in the Cloud Run logs.
+# TODO(ljr): I think since this step/command is last,
+# Flask is running with werkzeug and not with the nginx reverse proxy.
+# How do we not use werkzeug? We get the warning from Flask in the Cloud Run logs.

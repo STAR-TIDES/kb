@@ -58,6 +58,7 @@ import { AboutComponent } from './about/about.component';
 import { GuideListComponent } from './guide-list/guide-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AboutComponent,
     GuideListComponent,
     GuideDetailComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SearchResultsComponent
   ],
   imports: [
     A11yModule,

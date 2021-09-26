@@ -11,7 +11,7 @@ from mongoengine import (
 from star_tides.services.databases.mongo.models.guidance_model import GuidanceModel
 
 
-class UserModel(Document):
+class Guide(Document):
     ''' User model
     '''
     uuid = UUIDField(binary=False, required=False)

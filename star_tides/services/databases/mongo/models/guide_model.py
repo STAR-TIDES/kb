@@ -8,7 +8,7 @@ from mongoengine import (
     EmbeddedDocumentField
 )
 
-from star_tides.services.databases.mongo.models.guidance_model import GuidanceModel
+from star_tides.services.databases.mongo.models.guidance_model import Guidance
 
 
 class Guide(Document):
@@ -19,4 +19,4 @@ class Guide(Document):
     focuses = ListField(required=True)
     related_projects = ListField(required=False, default=[])
     relevant_contracts = ListField(required=False, default=[])
-    guidance = EmbeddedDocumentField(GuidanceModel, required=True)
+    guidance = EmbeddedDocumentField(Guidance, required=True)

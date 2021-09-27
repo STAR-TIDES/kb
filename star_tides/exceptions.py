@@ -113,6 +113,6 @@ class AuthenticationError(StarTidesException):
                  http_code=HTTPStatus.UNAUTHORIZED
                  ):
         super().__init__(
-            self.__class__name__, response_msg, severity,
-            http_code, logging_msg=logging_msg
+            self.__class__.__name__, response_msg, severity,
+            http_code
         )

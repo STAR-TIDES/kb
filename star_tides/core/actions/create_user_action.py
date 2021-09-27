@@ -35,6 +35,6 @@ class CreateUserAction(Action):
             self.first_name,
             self.last_name,
             self.email,
-            pw_hash
+            pw_hash,
         )
         return user

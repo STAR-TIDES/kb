@@ -3,9 +3,10 @@
 
 # TODO Implement a decorator to enforce login
 from functools import wraps
-from star_tides.exceptions import AuthenticationError
+from star_tides.exceptions import AuthenticationError, StarTidesException
 from star_tides.config.settings import UNSAFE_IGNORE_LOGIN_REQUIRED
 from star_tides.api.controllers.base_controller import Controller
+import traceback
 
 
 def login_required(func):
@@ -28,8 +29,10 @@ def login_required(func):
                 # this code will raise an exception.
                 Controller.decode_jwt()
             except Exception as e:
-                raise AuthenticationError(
-                    'Jwt invalid. Use refresh token or re-login') from e
+                return {
+                    'error': str(e),
+                    'errorClass': e.__class__.__name__
+                }
         return func(*args, **kwargs)
 
     return wrapper

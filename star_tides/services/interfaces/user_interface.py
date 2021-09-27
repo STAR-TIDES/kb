@@ -3,6 +3,7 @@
 from star_tides.services.interfaces.utils.interface_decorator import (
     interface_decorator
 )
+from star_tides.api.util.issue_jwt import create_jwt
 from star_tides.constants import UserTypes
 from star_tides.services.databases.mongo.models.user_model import UserModel
 from star_tides.services.databases.mongo.schemas.user_schema import UserSchema
@@ -43,8 +44,11 @@ class UserInterface:
             last_name=last_name,
             email=email,
             password=pw_hash,
-            kb_privilege=kb_privilege
+            kb_privilege=UserTypes.to_int(kb_privilege)
         )
+        jwt, refresh = create_jwt(email)
+        user.current_jwt = jwt
+        user.current_refresh_token = refresh
         user.save()
         return UserSchema(only=only).dump(user)
 

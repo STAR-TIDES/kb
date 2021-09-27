@@ -9,6 +9,7 @@ from star_tides.api.blueprint import bp
 from star_tides.api.routes.auth_route import auth
 from star_tides.api.routes.contact_route import contact
 from star_tides.api.routes.project_route import project
+from star_tides.api.routes.guide_route import guide
 import os
 
 
@@ -34,5 +35,6 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(contact)
     app.register_blueprint(project)
-
+    app.register_blueprint(guide)
+    
     return app

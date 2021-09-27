@@ -1,0 +1,7 @@
+# This is the Dockerfile used for specifically running backend
+# tests via a `docker build`.
+FROM python:3.7-stretch
+COPY . /app
+WORKDIR /app/star_tides
+RUN pip3 install -q -r requirements.txt
+RUN pytest -rxXs .

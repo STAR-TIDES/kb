@@ -6,10 +6,11 @@ WORKDIR /app
 COPY . .
 WORKDIR /app/frontend/star-tides/
 RUN npm i --no-verbose
-RUN npm i -g @angular/cli@latest
+RUN npm i --no-verbose -g @angular/cli@latest
 RUN ng build \
     --configuration=production \
     --no-verbose \
+    --progress=false \
     --deploy-url='/'
 WORKDIR /
 
@@ -17,11 +18,27 @@ FROM python:3.7-stretch as python_builder
 WORKDIR /app
 COPY . .
 COPY --from=node_builder /app/frontend/star-tides/dist/star-tides /app/static
-RUN pip3 install -r star_tides/requirements.txt
-CMD python3 run.py
+RUN pip3 install -q -r star_tides/requirements.txt
+# CMD python3 run.py
+# TODO(ljr): I think this CMD above is now a no-op?
+# We would like to have the Python code running, 
+# but ultimately start up the Nginx reverse proxy as well.
 
 FROM nginx:latest as nginx_builder
 COPY . .
 COPY --from=node_builder /app/frontend/star-tides/dist/star-tides /app/static
 COPY --from=python_builder /app /app
 COPY ./nginx.conf /etc/nginx/nginx.conf
+# ENTRYPOINT [ "python3", "run.py" ]
+# CMD python3 run.py
+#
+# TODO(ljr): I don't think these ENTRYPOINTs or CMDs work since this is in the nginx phase/step of a
+# multi-step build and not the Python phase/step.
+# Perhaps the app isn't starting?
+
+FROM python_builder
+WORKDIR /app
+CMD python3 run.py
+# TODO(ljr): I think since this step/command is last,
+# Flask is running with werkzeug and not with the nginx reverse proxy.
+# How do we not use werkzeug? We get the warning from Flask in the Cloud Run logs.

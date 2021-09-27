@@ -23,7 +23,7 @@ def create_app():
     db_auth_source = os.environ.get('DB_AUTH_SOURCE', 'admin')
 
 
-    resp = connect(
+    connect(
         username=os.getenv('MONGO_INITDB_ROOT_USERNAME'),
         password=os.getenv('MONGO_INITDB_ROOT_PASSWORD'),
         host=f'mongodb://'

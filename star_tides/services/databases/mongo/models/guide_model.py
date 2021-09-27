@@ -9,6 +9,12 @@ from mongoengine import (
 )
 
 from star_tides.services.databases.mongo.models.guidance_model import Guidance
+from star_tides.services.databases.mongo.models.project_model import (
+    ProjectModel
+)
+from star_tides.services.databases.mongo.models.contact_model import (
+    ContactModel
+)
 
 
 class Guide(Document):
@@ -17,6 +23,13 @@ class Guide(Document):
     uuid = UUIDField(binary=False, required=False)
     name = StringField(required=True)
     focuses = ListField(required=True)
-    related_projects = ListField(required=False, default=[])
-    relevant_contracts = ListField(required=False, default=[])
-    guidance = EmbeddedDocumentField(Guidance, required=True)
+    related_projects = ListField(ProjectModel, required=False, default=[])
+    relevant_contacts = ListField(ContactModel, required=False, default=[])
+    guidance = ListField(
+        EmbeddedDocumentField(
+            Guidance,
+            required=True
+        ),
+        required=False,
+        default=[]
+    )

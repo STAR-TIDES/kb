@@ -4,7 +4,8 @@ from mongoengine import (
     EmbeddedDocument,
     StringField,
     ObjectIdField,
-    EmbeddedDocumentField
+    EmbeddedDocumentField,
+    URLField
 )
 from star_tides.services.databases.mongo.models.location_model import (
     LocationModel
@@ -13,8 +14,7 @@ from star_tides.services.databases.mongo.models.location_model import (
 
 class Guidance(EmbeddedDocument):
     author = ObjectIdField(required=False)
-    # TODO add project ID as a reference
-    project_id = ObjectIdField(required=False, default='')
-    text_content = StringField(required=False, default='')
-    link = StringField(required=False, default='')
-    geo_location = EmbeddedDocumentField(LocationModel, required=True)
+    project_id = ObjectIdField(required=False)
+    text_content = StringField(required=False)
+    link = URLField(required=False)
+    location = EmbeddedDocumentField(LocationModel, required=True)

@@ -1,19 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
+import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
 import { GuideListComponent } from './guide-list/guide-list.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'contacts/:id/edit', component: ContactEditComponent },
   { path: 'contacts/:id', component: ContactDetailComponent },
   { path: 'contacts', component: ContactListComponent },
+  { path: 'projects/:id/edit', component: ProjectEditComponent },
   { path: 'projects/:id', component: ProjectDetailComponent },
   { path: 'projects', component: ProjectListComponent },
   { path: 'guides', component: GuideListComponent },

@@ -114,7 +114,14 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
   }
 
   deleteContact(id: string): Observable<{}> {
-    throw new Error('unimplemented');
+    let found = false;
+    this.fakeContacts = this.fakeContacts.filter(c => {
+      if (c.id == id) {
+        found = true;
+      }
+      return c.id != id;
+    });
+    return found ? of({}) : throwError(`contact with id ${id} not found`);
   }
 
   getProject(id: string): Observable<Project> {

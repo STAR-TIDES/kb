@@ -22,6 +22,9 @@
         <p>By {{update.userId}} <span *ngIf="update.requestingContactId">on behalf of
                 {{update.requestingContactId}}</span> on {{update.timestamp}}</p>
     </div>
+    <div>
+        <a mat-raised-button color="accent" routerLink="/projects/{{project.id}}/edit">Update/Delete</a>
+    </div>
 </div>
 <ng-template #elseBlock>
     <h1 class='error'>Could not find the given Project.</h1>

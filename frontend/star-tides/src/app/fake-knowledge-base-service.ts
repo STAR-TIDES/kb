@@ -15,7 +15,14 @@ export class FakeKnowledgeBaseService implements KnowledgeBaseInterface {
         throw new Error("Method not implemented.");
     }
     deleteContact(id: string): Observable<{}> {
-        throw new Error("Method not implemented.");
+        let found = false;
+        this.contacts = this.contacts.filter(c => {
+            if (c.id == id) {
+                found = true;
+            }
+            return c.id != id;
+        });
+        return found ? of({}) : throwError(`contact with id ${id} not found`);
     }
 
     getProject(id: string) {

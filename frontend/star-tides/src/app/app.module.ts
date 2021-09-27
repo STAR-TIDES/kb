@@ -59,6 +59,8 @@ import { GuideListComponent } from './guide-list/guide-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { ContactEditComponent } from './contact-edit/contact-edit.component';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
 
 
 @NgModule({
@@ -73,7 +75,9 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     GuideListComponent,
     GuideDetailComponent,
     PageNotFoundComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    ContactEditComponent,
+    ProjectEditComponent
   ],
   imports: [
     A11yModule,

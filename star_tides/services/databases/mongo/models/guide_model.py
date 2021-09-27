@@ -22,7 +22,9 @@ class Guide(Document):
     '''
     uuid = UUIDField(binary=False, required=False)
     name = StringField(required=True)
-    focuses = ListField(required=True)
+    focuses = ListField(StringField, required=True) # @LJR do we have a
+                                                    # focus model?
+    summary = StringField(required=False)
     related_projects = ListField(ProjectModel, required=False, default=[])
     relevant_contacts = ListField(ContactModel, required=False, default=[])
     guidance = ListField(

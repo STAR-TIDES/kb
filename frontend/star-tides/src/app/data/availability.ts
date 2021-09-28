@@ -3,3 +3,5 @@ export enum Availability {
     Unavailable = 'UNAVAILABLE',
     Available = 'AVAILABLE',
 }
+
+export const AVAILABILITY_LIST = Object.values(Availability);

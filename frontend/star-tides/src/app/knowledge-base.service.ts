@@ -7,6 +7,7 @@ import { KnowledgeBaseInterface } from './knowledge-base-service-interface';
 import { Availability } from './data/availability';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { Project, ProjectStatus } from './data/project';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -106,11 +107,20 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
   }
 
   listContacts(query = '', pageToken = '', pageSize = 10): Observable<Contact[]> {
-    return of(this.fakeContacts);
+    if (query == '') {
+      return of(this.fakeContacts);
+    }
+
+    return of(this.fakeContacts.filter(c => JSON.stringify(c).includes(query)));
   }
 
   updateContact(id: string, contact: Contact): Observable<Contact> {
-    throw new Error('unimplemented');
+    const index = this.fakeContacts.findIndex(c => c.id == id);
+    if (index < 0) {
+      return throwError(`failed to find contact with id ${id}`);
+    }
+    this.fakeContacts[index] = contact;
+    return of(contact);
   }
 
   deleteContact(id: string): Observable<{}> {
@@ -133,6 +143,9 @@ export class KnowledgeBaseService implements KnowledgeBaseInterface {
   }
 
   listProjects(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
-    return of(this.fakeProjects);
+    if (query == '') {
+      return of(this.fakeProjects);
+    }
+    return of(this.fakeProjects.filter(p => JSON.stringify(p).includes(query)));
   }
 }

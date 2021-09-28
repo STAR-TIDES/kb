@@ -3,17 +3,17 @@ import { Engagement } from "./engagement";
 import { Location } from "./location";
 
 export interface Contact {
-    name: String;
+    name: string;
     location: Location;
     availability: Availability;
-    id: String;
-    userId?: String;
-    email?: String;
-    phoneNumber?: String;
-    jobTitle?: String;
-    websiteURL?: String;
-    languages: String[];
-    statuses: String[];
+    id: string;
+    userId?: string;
+    email?: string;
+    phoneNumber?: string;
+    jobTitle?: string;
+    websiteURL?: string;
+    languages: string[];
+    statuses: string[];
     engagement: Engagement;
 }
 

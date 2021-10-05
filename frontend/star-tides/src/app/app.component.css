@@ -1,4 +1,40 @@
-.fill-blue {
-    background-color: lightblue;
+.menu-toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.side-menu {
+    background-color: lightgray;
+}
+
+mat-drawer-container {
+    height: 100%;
+}
+
+.main-content {
+    padding: 5px;
+}
+
+.side-menu {
+    padding: 5px;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.menu-item > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item span {
     text-align: center;
+    padding: 5px;
+}
+
+.header-home-link {
+    text-decoration: none;
+    color: white;
 }

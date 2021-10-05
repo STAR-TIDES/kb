@@ -1,0 +1,8 @@
+<h1>Projects</h1>
+<ng-template ngFor let-project [ngForOf]="projects">
+    <h2><a href="/projects/{{project.id}}">{{project.name}}</a></h2>
+    <span>{{project.location.arbitraryText}} | {{project.status}}</span>
+    <!--Taken from https://stackoverflow.com/a/44669515.-->
+    <p>{{ (project.summary | slice:0:32) + '...' }}</p>
+    <hr>
+</ng-template>

@@ -1,0 +1,29 @@
+<div *ngIf="contact; else notFound">
+    <h1>Editing Contact</h1>
+    <div class='kb-form'>
+        <form>
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="contact.name" name="name">
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance="outline">
+                <mat-label>Location</mat-label>
+                <input matInput [(ngModel)]="contact.location.arbitraryText" name="locationArbitraryText">
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance="outline">
+                <mat-label>Availability</mat-label>
+                <mat-select [(ngModel)]="contact.availability" name="availability">
+                    <mat-option *ngFor="let a of AVAILABILITY_LIST" [value]="a">
+                        {{a}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <button mat-raised-button color='primary' (click)="onUpdateClick()">Update</button>
+    <p></p>
+    <button mat-raised-button color='warn' (click)="onDeleteClick()">Delete</button>
+</div>
+<ng-template #notFound>No contact found.</ng-template>

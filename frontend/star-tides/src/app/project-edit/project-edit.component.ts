@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from '../data/project';
 import { KnowledgeBaseService } from '../knowledge-base.service';
 
@@ -12,12 +12,14 @@ import { KnowledgeBaseService } from '../knowledge-base.service';
 export class ProjectEditComponent implements OnInit {
   project?: Project;
 
-  constructor(private activatedRoute: ActivatedRoute, private service: KnowledgeBaseService) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private service: KnowledgeBaseService) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) {
-      throw new Error('id not present in route');
+      console.error('id not present in route');
+      this.router.navigate(['/projects']);
+      return;
     }
     this.service.getProject(id).subscribe(p => this.project = p);
   }

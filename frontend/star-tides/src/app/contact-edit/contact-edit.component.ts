@@ -22,7 +22,9 @@ export class ContactEditComponent implements OnInit {
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) {
-      throw new Error('id not present in route');
+      console.error('id not present in route');
+      this.router.navigate(['/contacts']);
+      return;
     }
 
     this.service.getContact(id).subscribe(c => this.contact = c);

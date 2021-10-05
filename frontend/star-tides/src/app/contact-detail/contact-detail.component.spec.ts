@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
+import { ALL_APP_ROUTES } from '../app-routing.module';
 import { FakeActivatedRouteProvider } from '../fake-activated-route';
 import { FakeKnowledgeBaseService } from '../fake-knowledge-base-service';
 import { KnowledgeBaseService } from '../knowledge-base.service';
@@ -15,7 +14,7 @@ describe('ContactDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [RouterTestingModule.withRoutes(ALL_APP_ROUTES)],
       declarations: [ContactDetailComponent],
       providers: [activatedRoute, { provide: KnowledgeBaseService, useClass: FakeKnowledgeBaseService }],
     }).compileComponents();

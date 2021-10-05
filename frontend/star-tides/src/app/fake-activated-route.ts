@@ -12,3 +12,22 @@ export class FakeActivatedRouteProvider implements ValueProvider {
         this.paramMap = paramMap;
     }
 }
+
+export class FakeParamMap implements ParamMap {
+    has(name: string): boolean {
+        throw new Error("Method not implemented.");
+    }
+    get(name: string): string | null {
+        return this.map.get(name) || null;
+    }
+    getAll(name: string): string[] {
+        throw new Error("Method not implemented.");
+    }
+
+    get keys() {
+        return Object.keys(this.map);
+    }
+
+    constructor(private map: Map<string, string>) { }
+
+}

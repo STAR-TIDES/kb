@@ -12,7 +12,7 @@ import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 
-const routes: Routes = [
+export const ALL_APP_ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'contacts/:id/edit', component: ContactEditComponent },
   { path: 'contacts/:id', component: ContactDetailComponent },
@@ -30,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(ALL_APP_ROUTES)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

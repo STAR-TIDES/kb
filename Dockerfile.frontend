@@ -1,0 +1,12 @@
+FROM node:12.22-stretch as node_builder
+WORKDIR /app
+COPY . .
+WORKDIR /app/frontend/star-tides/
+RUN npm i --no-verbose
+RUN npm i -g @angular/cli@latest
+RUN ng build \
+    --configuration=production \
+    --no-verbose \
+    --deploy-url='/'
+EXPOSE 4200
+CMD ng serve --host 0.0.0.0

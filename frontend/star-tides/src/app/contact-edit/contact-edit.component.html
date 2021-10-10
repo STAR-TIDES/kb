@@ -22,8 +22,16 @@
             </mat-form-field>
         </form>
     </div>
-    <button mat-raised-button color='primary' (click)="onUpdateClick()">Update</button>
-    <p></p>
-    <button mat-raised-button color='warn' (click)="onDeleteClick()">Delete</button>
+    <div>
+        <div *ngIf="isNew; else updateOrDelete">
+            <button mat-raised-button color='primary' (click)="onCreateClick()">Create</button>
+        </div>
+        <ng-template #updateOrDelete>
+            <button mat-raised-button color='primary' (click)="onUpdateClick()">Update</button>
+            <p></p>
+            <button mat-raised-button color='warn' (click)="onDeleteClick()">Delete</button>
+        </ng-template>
+    </div>
+
 </div>
 <ng-template #notFound>No contact found.</ng-template>

@@ -14,6 +14,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 
 export const ALL_APP_ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'contacts/new', component: ContactEditComponent },
   { path: 'contacts/:id/edit', component: ContactEditComponent },
   { path: 'contacts/:id', component: ContactDetailComponent },
   { path: 'contacts', component: ContactListComponent },

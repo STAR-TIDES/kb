@@ -21,7 +21,9 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
     }
 
     createContact(contact: Contact): Observable<Contact> {
-        throw new Error("Method not implemented.");
+        contact.id = Math.random().toString();
+        this.contacts.push(contact);
+        return of(contact);
     }
     updateProject(id: string, payload: Project): Observable<Project> {
         throw new Error("Method not implemented.");

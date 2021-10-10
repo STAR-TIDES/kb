@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AVAILABILITY_LIST } from '../data/availability';
+import { Availability, AVAILABILITY_LIST } from '../data/availability';
 import { Contact } from '../data/contact';
 import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
 import { KnowledgeBaseService } from '../knowledge-base-service';
@@ -14,6 +14,7 @@ import { KnowledgeBaseService } from '../knowledge-base-service';
 export class ContactEditComponent implements OnInit {
   contact?: Contact;
   AVAILABILITY_LIST = AVAILABILITY_LIST;
+  isNew: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -21,9 +22,33 @@ export class ContactEditComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    console.log(this.activatedRoute.snapshot);
+    const isNew = (this.activatedRoute.snapshot.routeConfig?.path || '').indexOf('/new') >= 0;
+    if (isNew) {
+      this.isNew = true;
+      this.contact = {
+        id: '',
+        name: '',
+        location: {
+          iso31661CountryCode: 0,
+          arbitraryText: '',
+        },
+        availability: Availability.Unavailable,
+        languages: [],
+        statuses: [],
+        engagement: {
+          locations: [],
+          backgrounds: [],
+          areasOfInterest: [],
+          focuses: [],
+        },
+      };
+      return;
+    }
+
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (!id) {
-      console.error('id not present in route');
+      console.error('contact id not present in route');
       this.router.navigate(['/contacts']);
       return;
     }
@@ -47,5 +72,10 @@ export class ContactEditComponent implements OnInit {
 
     this.service.updateContact(this.contact.id, this.contact).subscribe(
       c => this.router.navigate(['/contacts', c.id]));
+  }
+
+  onCreateClick() {
+    this.service.createContact(this.contact!!)
+      .subscribe(c => this.router.navigate(['/contacts', c.id]));
   }
 }

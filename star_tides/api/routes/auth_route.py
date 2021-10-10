@@ -3,7 +3,10 @@
 Contains routes pertaining to authentication.
 
 '''
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    # render_template
+)
 from star_tides.api.controllers.auth_controller import (
     # Uncomment when basic auth is added again.
     LoginController,

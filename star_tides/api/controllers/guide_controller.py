@@ -40,9 +40,7 @@ class CreateGuideController(Controller):
         if not body:
             raise InvalidParamError('Expected JSON body to be present.')
         json_body = snake_case_dict(body)
-        # TODO(ljr): Pass to ContactSchema first?
         created_contact = CreateGuideAction(json_body).run()
-        # return created_contact._asdict()
         return created_contact
 
 
@@ -57,7 +55,7 @@ class DeleteGuideController(Controller):
 
 class UpdateGuideController(Controller):
     def __init__(self, guide_id: str) -> None:
-        self.guide_id = guide_id,
+        self.guide_id = guide_id
 
     def process_request(self):
         updated_guide = UpdateGuideAction(

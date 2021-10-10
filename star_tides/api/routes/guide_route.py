@@ -1,3 +1,5 @@
+''' star_tides.api.routes.guide_route
+'''
 from star_tides.api.decorators.login_required import login_required
 from star_tides.api.controllers.guide_controller import (
     CreateGuideController,

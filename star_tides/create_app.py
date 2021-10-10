@@ -36,5 +36,4 @@ def create_app():
     app.register_blueprint(contact)
     app.register_blueprint(project)
     app.register_blueprint(guide)
-    
     return app

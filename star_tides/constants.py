@@ -20,11 +20,11 @@ class UserTypes(enum.Enum):
     ADMIN = 2
 
     @classmethod
-    def to_int(cls, type):
-        if type == cls.UNSPECIFIED:
+    def to_int(cls, enum_type):
+        if enum_type == cls.UNSPECIFIED:
             return 0
-        elif type == cls.COLLABORATOR:
+        elif enum_type == cls.COLLABORATOR:
             return 1
-        elif type == cls.ADMIN:
+        elif enum_type == cls.ADMIN:
             return 2
         raise Exception("Rhut rho")

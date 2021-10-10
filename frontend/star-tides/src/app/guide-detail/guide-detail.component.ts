@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./guide-detail.component.css']
 })
 export class GuideDetailComponent implements OnInit {
+  content = 'Some awesome *markdown* content!';
 
   constructor() { }
 

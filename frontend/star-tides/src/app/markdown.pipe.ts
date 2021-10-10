@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import * as marked from 'marked';
 
 /** Pipe to render Markdown content.
  * 
@@ -9,8 +10,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MarkdownPipe implements PipeTransform {
 
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+  transform(value: unknown): any {
+    const content = value as string;
+    if (content.length < 1) {
+      return '';
+    }
+    return marked(content);
   }
 
 }

@@ -90,7 +90,7 @@ class LoginUserAction(Action):
                     raise RecordDoesNotExistError(
                         response_msg='The user could not be found.')
 
-            return LoginUserAction.response(*create_jwt(user.email))
+            return LoginUserAction.response(*create_jwt(user_id=user.id))
 
         password = self.password.encode('utf-8')
         user = UserModel.objects(email=self.username).first()
@@ -100,6 +100,6 @@ class LoginUserAction(Action):
                 response_msg='User does not exist or password is incorrect')
 
         if bcrypt.checkpw(password, user.password):
-            return LoginUserAction.response(*create_jwt(user.email))
+            return LoginUserAction.response(*create_jwt(user_id=user.id))
         raise AuthenticationError(
             response_msg='User does not exist or password is incorrect')

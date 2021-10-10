@@ -38,3 +38,8 @@ mat-drawer-container {
     text-decoration: none;
     color: white;
 }
+
+.main-content {
+    padding-left: 20px;
+    padding-right: 5px;
+}

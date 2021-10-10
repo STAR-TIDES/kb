@@ -1,11 +1,9 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, throwError, zip } from 'rxjs';
-import { mergeMap, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Contact } from '../data/contact';
 import { Project } from '../data/project';
-import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
 import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({

@@ -24,6 +24,9 @@ export enum ProjectStatus {
     Abandoned = 'ABANDONED',
     Completed = 'COMPLETED'
 }
+
+export const STATUS_LIST = Object.values(ProjectStatus);
+
 export interface ProjectUpdate {
     timestamp: Date,
     editorContactId: string;

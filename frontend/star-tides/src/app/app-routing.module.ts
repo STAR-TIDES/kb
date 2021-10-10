@@ -18,6 +18,7 @@ export const ALL_APP_ROUTES: Routes = [
   { path: 'contacts/:id/edit', component: ContactEditComponent },
   { path: 'contacts/:id', component: ContactDetailComponent },
   { path: 'contacts', component: ContactListComponent },
+  { path: 'projects/new', component: ProjectEditComponent },
   { path: 'projects/:id/edit', component: ProjectEditComponent },
   { path: 'projects/:id', component: ProjectDetailComponent },
   { path: 'projects', component: ProjectListComponent },

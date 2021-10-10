@@ -23,7 +23,7 @@ export class ContactEditComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.activatedRoute.snapshot);
-    const isNew = (this.activatedRoute.snapshot.routeConfig?.path || '').indexOf('/new') >= 0;
+    const isNew = this.activatedRoute.routeConfig?.path?.includes('/new');
     if (isNew) {
       this.isNew = true;
       this.contact = {
@@ -62,7 +62,7 @@ export class ContactEditComponent implements OnInit {
     }
 
     this.service.deleteContact(this.contact.id).subscribe(
-      _ => window.alert(`Successfully deleted ${this.contact?.name}!`));
+      _ => this.router.navigate(['/contacts']));
   }
 
   onUpdateClick() {

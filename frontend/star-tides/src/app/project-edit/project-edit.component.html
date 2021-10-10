@@ -1,1 +1,34 @@
-<p>project-edit works!</p>
+<div *ngIf="project; else notFound">
+    <h1>Editing Project</h1>
+    <div class='kb-form'>
+        <form>
+            <mat-form-field appearance='outline'>
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]='project.name' name='name'>
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance='outline'>
+                <mat-label>Location</mat-label>
+                <input matInput [(ngModel)]='project.location.arbitraryText' name='locationArbitraryText'>
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance='outline'>
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]='project.status' name='status'>
+                    <mat-option *ngFor='let s of STATUS_LIST' [value]='s'>{{s}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <div *ngIf="isNew; else updateOrDelete">
+            <button mat-raised-button color='primary' (click)='onCreateClick()'>Create</button>
+        </div>
+        <ng-template #updateOrDelete>
+            <button mat-raised-button color='primary' (click)='onUpdateClick()'>Update</button>
+            <p></p>
+            <button mat-raised-button color='warn' (click)='onDeleteClick()'>Delete</button>
+        </ng-template>
+    </div>
+</div>
+<ng-template #notFound>Not project found.</ng-template>

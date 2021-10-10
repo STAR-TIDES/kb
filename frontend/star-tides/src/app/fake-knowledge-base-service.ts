@@ -20,20 +20,39 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
         return fake;
     }
 
+    private newUUID() {
+        return Math.random().toString();
+    }
+
     createContact(contact: Contact): Observable<Contact> {
-        contact.id = Math.random().toString();
+        contact.id = this.newUUID();
         this.contacts.push(contact);
         return of(contact);
     }
     updateProject(id: string, payload: Project): Observable<Project> {
-        throw new Error("Method not implemented.");
+        const i = this.projects.findIndex(p => p.id == id);
+        if (i < 0) {
+            return throwError(new Error(`project with id ${id} not found`));
+        }
+
+        const oldProject = this.projects[i];
+        const updated = Object.assign(oldProject, payload);
+        this.projects[i] = updated;
+        return of(updated);
     }
     deleteProject(id: string): Observable<{}> {
-        throw new Error("Method not implemented.");
+        const before = this.projects.length;
+        this.projects = this.projects.filter(p => p.id != id);
+        const after = this.projects.length;
+        return before != after ? of({}) : throwError(new Error(`project with id ${id} not found`));
     }
     createProject(project: Project): Observable<Project> {
-        throw new Error("Method not implemented.");
+        project.id = this.newUUID();
+        this.projects.push(project);
+        console.log(this.projects);
+        return of(project);
     }
+
     getGuide(id: string): Observable<Guide> {
         throw new Error("Method not implemented.");
     }
@@ -67,7 +86,15 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
         return of(this.contacts);
     }
     updateContact(id: string, payload: Contact): Observable<Contact> {
-        throw new Error("Method not implemented.");
+        const i = this.contacts.findIndex(c => c.id == id);
+        if (i < 0) {
+            return throwError(new Error(`contact with id ${id} not found`));
+        }
+
+        const oldContact = this.contacts[i];
+        const updated = Object.assign(oldContact, payload);
+        this.contacts[i] = updated;
+        return of(updated);
     }
     deleteContact(id: string): Observable<{}> {
         let found = false;
@@ -81,6 +108,7 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
     }
 
     getProject(id: string) {
+        console.log(this.projects);
         const project = this.projects.find(p => p.id == id);
         return project ? of(project) : throwError(`project ${id} not found`)
     }

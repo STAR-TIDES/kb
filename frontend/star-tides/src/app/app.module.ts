@@ -63,6 +63,7 @@ import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { KnowledgeBaseService } from './knowledge-base-service';
 import { FakeKnowledgeBaseService } from './fake-knowledge-base-service';
+import { MarkdownPipe } from './markdown.pipe';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { FakeKnowledgeBaseService } from './fake-knowledge-base-service';
     PageNotFoundComponent,
     SearchResultsComponent,
     ContactEditComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    MarkdownPipe
   ],
   imports: [
     A11yModule,

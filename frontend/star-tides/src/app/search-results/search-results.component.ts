@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Contact } from '../data/contact';
 import { Project } from '../data/project';
-import { KnowledgeBaseService } from '../knowledge-base.service';
+import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
+import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({
   selector: 'app-search-results',

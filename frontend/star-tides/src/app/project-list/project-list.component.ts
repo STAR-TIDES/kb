@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from '../data/project';
-import { KnowledgeBaseService } from '../knowledge-base.service';
+import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
+import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({
   selector: 'app-project-list',

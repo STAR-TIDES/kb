@@ -19,8 +19,14 @@
     <div *ngFor="let update of project.updates, index as i">
         <h3>Project Update {{i+1}}</h3>
         <p>{{update.content}}</p>
-        <p>By {{update.userId}} <span *ngIf="update.requestingContactId">on behalf of
-                {{update.requestingContactId}}</span> on {{update.timestamp}}</p>
+        <p>By <a routerLink='/contacts/{{update.editorContactId}}'>{{getContactName(update.editorContactId)}}</a>
+            <span *ngIf="update.requestorContactId"> on
+                behalf
+                of
+                <a
+                    routerLink='/contacts/{{update.requestorContactId}}'>{{getContactName(update.requestorContactId)}}</a></span>
+            on {{update.timestamp}}
+        </p>
     </div>
     <div>
         <a mat-raised-button color="accent" routerLink="/projects/{{project.id}}/edit">Update/Delete</a>

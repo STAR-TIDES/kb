@@ -26,7 +26,7 @@ export enum ProjectStatus {
 }
 export interface ProjectUpdate {
     timestamp: Date,
-    userId: string,
+    editorContactId: string;
     content: string,
-    requestingContactId?: string,
+    requestorContactId?: string,
 }

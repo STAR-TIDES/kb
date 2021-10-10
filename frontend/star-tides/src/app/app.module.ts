@@ -61,6 +61,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { KnowledgeBaseService } from './knowledge-base-service';
+import { FakeKnowledgeBaseService } from './fake-knowledge-base-service';
 
 
 @NgModule({
@@ -135,7 +137,7 @@ import { ProjectEditComponent } from './project-edit/project-edit.component';
     ReactiveFormsModule,
     ScrollingModule,
   ],
-  providers: [],
+  providers: [{ provide: KnowledgeBaseService, useFactory: () => FakeKnowledgeBaseService.createWithFakeData() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

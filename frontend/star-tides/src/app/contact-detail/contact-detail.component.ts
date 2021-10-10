@@ -4,8 +4,7 @@ import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Availability } from '../data/availability';
 import { Contact } from '../data/contact';
-import { KnowledgeBaseInterface } from '../knowledge-base-service-interface';
-import { KnowledgeBaseService } from '../knowledge-base.service';
+import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({
   selector: 'app-contact-detail',
@@ -15,7 +14,10 @@ import { KnowledgeBaseService } from '../knowledge-base.service';
 export class ContactDetailComponent implements OnInit {
   contact?: Contact;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private client: KnowledgeBaseService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');

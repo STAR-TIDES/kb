@@ -3,7 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AVAILABILITY_LIST } from '../data/availability';
 import { Contact } from '../data/contact';
-import { KnowledgeBaseService } from '../knowledge-base.service';
+import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
+import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({
   selector: 'app-contact-edit',

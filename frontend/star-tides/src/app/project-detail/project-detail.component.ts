@@ -1,10 +1,12 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { of, throwError, zip } from 'rxjs';
+import { mergeMap, switchMap } from 'rxjs/operators';
 import { Contact } from '../data/contact';
 import { Project } from '../data/project';
-import { KnowledgeBaseService } from '../knowledge-base.service';
+import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
+import { KnowledgeBaseService } from '../knowledge-base-service';
 
 @Component({
   selector: 'app-project-detail',
@@ -13,8 +15,12 @@ import { KnowledgeBaseService } from '../knowledge-base.service';
 })
 export class ProjectDetailComponent implements OnInit {
   project?: Project;
+  idToContactMap: Map<string, Contact> = new Map();
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private client: KnowledgeBaseService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private client: KnowledgeBaseService) { }
 
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -23,9 +29,39 @@ export class ProjectDetailComponent implements OnInit {
       this.router.navigate(['/projects']);
     }
 
-    this.client.getProject(id!).subscribe(
-      project => this.project = project,
-      err => console.error(err)
-    );
+    const obs = this.client.getProject(id!);
+    obs.subscribe(project => this.project = project, err => console.error(err));
+    obs.pipe(switchMap(project => {
+      if (!project.updates) {
+        return of([]);
+      }
+
+      const ids = new Set<string>();
+      for (const update of project.updates) {
+        ids.add(update.editorContactId);
+        if (update.requestorContactId) {
+          ids.add(update.requestorContactId);
+        }
+      }
+
+
+      const query = {
+        'id': Array.from(ids)
+      };
+
+      return this.client.listContacts(JSON.stringify(query));
+    })).subscribe(contacts => {
+      for (const contact of contacts) {
+        this.idToContactMap.set(contact.id, contact);
+      }
+    }, err => console.error('contact lookup error!', err));
+  }
+
+  getContactName(id: string) {
+    const contact = this.idToContactMap.get(id);
+    if (!contact) {
+      return 'Unknown';
+    }
+    return contact.name;
   }
 }

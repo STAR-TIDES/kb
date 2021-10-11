@@ -12,11 +12,13 @@ import { KnowledgeBaseService } from "./knowledge-base-service";
 export class FakeKnowledgeBaseService extends KnowledgeBaseService {
     contacts: Contact[] = [];
     projects: Project[] = [];
+    guides: Guide[] = [];
 
     static createWithFakeData() {
         const fake = new FakeKnowledgeBaseService();
         fake.contacts = FAKE_CONTACTS;
         fake.projects = FAKE_PROJECTS;
+        fake.guides = FAKE_GUIDES;
         return fake;
     }
 
@@ -54,19 +56,33 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
     }
 
     getGuide(id: string): Observable<Guide> {
-        throw new Error("Method not implemented.");
+        const guide = this.guides.find(g => g.id == id);
+        return guide ? of(guide) : throwError(`guide ${id} not found`);
     }
     listGuides(query?: string, pageToken?: string, pageSize?: number): Observable<Guide[]> {
-        throw new Error("Method not implemented.");
+        return of(this.guides);
     }
     updateGuide(id: string, guide: Guide): Observable<Guide> {
-        throw new Error("Method not implemented.");
+        const i = this.guides.findIndex(g => g.id == id);
+        if (i < 0) {
+            return throwError(new Error(`project with id ${id} not found`));
+        }
+
+        const oldGuide = this.guides[i];
+        const updated = Object.assign(oldGuide, guide);
+        this.guides[i] = updated;
+        return of(updated);
     }
     deleteGuide(id: string): Observable<{}> {
-        throw new Error("Method not implemented.");
+        const before = this.guides.length;
+        this.guides = this.guides.filter(g => g.id != id);
+        const after = this.guides.length;
+        return before != after ? of({}) : throwError(new Error(`guide with id ${id} not found`));
     }
     createGuide(guide: Guide): Observable<Guide> {
-        throw new Error("Method not implemented.");
+        guide.id = this.newUUID();
+        this.guides.push(guide);
+        return of(guide);
     }
 
     getContact(id: string): Observable<Contact> {
@@ -202,3 +218,70 @@ export const FAKE_PROJECTS: Project[] = [{
     status: ProjectStatus.InProgressHelpWanted,
     solutionCosts: 'Water pumps for __$200 each__.'
 }];
+
+export const FAKE_GUIDES: Guide[] = [
+    {
+        id: '1',
+        name: 'Project Eagle Feather',
+        author: '1',
+        summary: `In [Project Eagle Feather](https://peoplecentered.net/tag/project-eagle-feather/),
+            we are working with a _diverse_ array of indigenous Americans to work towards
+            __better__ digital capacity!
+            Here's a _cool_ image: ![Some network systems!](https://peoplecentered.net/wp-content/uploads/2020/01/TDVN-640x380.png)`,
+        engagement: {
+            locations: [{ iso31661CountryCode: 840, arbitraryText: 'California' }],
+            areasOfInterest: ['Blah'],
+            focuses: ['Digital Capacity'],
+            backgrounds: ['Lorem Ipsum'],
+        },
+        relatedProjects: ['1'],
+        relevantContacts: ['2'],
+        guidances: [
+            { content: 'First is that you _have_ to meet with stakeholders!' },
+            {
+                content: `Next, you should meet with the tribes' leadership.`,
+                options: [
+                    { name: 'Meet with tribal elders?', content: '' },
+                    { name: 'Meet with local government?', content: '' },
+                ]
+            },
+            { content: `Finally, you look into technology.` },
+            {
+                content: `Do you go with satellite or fixed network?`,
+                options: [
+                    { name: 'Satellite Internet', content: 'Satellite has good coverage!' },
+                    { name: 'Fixed Network', content: 'Can be better for these _reasons_...' },
+                ]
+            },
+        ],
+    }, {
+        id: '2',
+        author: '1',
+        name: 'How to Make a Sandwich',
+        summary: 'You are probably hungry, _right_?',
+        engagement: { locations: [], areasOfInterest: [], focuses: [], backgrounds: [] },
+        guidances: [
+            {
+                content: 'First, choose your bread.',
+                options: [
+                    { name: 'Whole wheat', content: 'A true classic!' },
+                    { name: 'Pita', content: 'An _interesting_ choice.' },
+                    { name: 'Rye', content: `Here's a pic: ![Rye bread](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Dark_rye_bread.JPG/1280px-Dark_rye_bread.JPG)` },
+                ],
+            },
+            {
+                content: 'Choose your peanut butter type',
+                options: [
+                    { name: 'Smooth', content: 'Smooth peanut butter!' },
+                    { name: 'Crunchy', content: 'Crunchy peanut butter!' }
+                ],
+            }, {
+                content: 'Choose your jelly type',
+                options: [
+                    { name: 'Strawberry', content: 'Strawberry!' },
+                    { name: 'Raspberry', content: 'Raspberry!' }
+                ]
+            }
+        ],
+    }
+];

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './about/about.component';
 import { ContactDetailComponent } from './contact-detail/contact-detail.component';
 import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
@@ -29,6 +30,7 @@ export const ALL_APP_ROUTES: Routes = [
   { path: 'guides', component: GuideListComponent },
   { path: 'query', component: SearchResultsComponent },
   { path: 'query/:query', component: SearchResultsComponent },
+  { path: 'about', component: AboutComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '*', component: HomeComponent },
   { path: '**', component: PageNotFoundComponent },

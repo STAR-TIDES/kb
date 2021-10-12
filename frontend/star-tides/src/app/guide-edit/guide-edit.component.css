@@ -1,0 +1,9 @@
+:host mat-form-field.wide {
+    /* min-width: 50vw; */
+    width: 100%;
+}
+
+:host textarea {
+    font-family: monospace;
+    min-height: 10vh;
+}

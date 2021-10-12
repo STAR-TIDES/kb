@@ -1,1 +1,34 @@
-<p>guide-edit works!</p>
+<div *ngIf="guide; else noGuide">
+    <h1>Editing Guide</h1>
+    <div class='kb-form'>
+        <form>
+            <mat-form-field appearance='outline'>
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]='guide.name' name='name'>
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance='outline'>
+                <mat-label>Author</mat-label>
+                <input matInput [(ngModel)]='guide.author' name='author'>
+            </mat-form-field>
+            <p></p>
+            <mat-form-field appearance='outline' class='wide'>
+                <mat-label>Summary (Markdown)</mat-label>
+                <textarea matInput [(ngModel)]='guide.summary' name='summary'></textarea>
+            </mat-form-field>
+        </form>
+    </div>
+    <div>
+        <div *ngIf='isNew; else updateOrDelete'>
+            <button mat-raised-button color='primary' (click)='onCreateClick()'>Create</button>
+        </div>
+        <ng-template #updateOrDelete>
+            <button mat-raised-button color='primary' (click)='onUpdateClick()'>Update</button>
+            <p></p>
+            <button mat-raised-button color='warn' (click)='onDeleteClick()'>Delete</button>
+        </ng-template>
+    </div>
+</div>
+<ng-template #noGuide>
+    <h1 class='error'>Could not find the given Guide.</h1>
+</ng-template>

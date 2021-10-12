@@ -31,9 +31,20 @@ services:
         - ./:/app
       depends_on:
         - mongodb_container
+        - dev-frontend
       ports:
         # Available on host port 5000, broadcasting on container port 5000.
-        - 5000:5000  
+        - 5000:5000
+  dev-frontend:
+      build:
+        context: ./
+        dockerfile: Dockerfile.frontend
+      env_file:
+        - .env
+      volumes:
+        - ./:/app
+      ports:
+        - 4200:4200
   test: # Same as the star-tides service but used for testing the backend
     build:
       context: ./

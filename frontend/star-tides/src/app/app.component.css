@@ -40,7 +40,5 @@ mat-drawer-container {
 }
 
 .main-content {
-    padding-left: 20px;
-    padding-right: 5px;
-    padding-top: 10px;
+   padding: 20px;
 }

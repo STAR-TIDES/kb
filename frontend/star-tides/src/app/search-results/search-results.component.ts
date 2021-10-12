@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Contact } from '../data/contact';
+import { Guide } from '../data/guide';
 import { Project } from '../data/project';
 import { HttpKnowledgeBaseService } from '../http-knowledge-base.service';
 import { KnowledgeBaseService } from '../knowledge-base-service';
@@ -15,6 +16,7 @@ export class SearchResultsComponent implements OnInit {
   query = '';
   contacts: Contact[] = [];
   projects: Project[] = [];
+  guides: Guide[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,5 +26,6 @@ export class SearchResultsComponent implements OnInit {
     this.query = this.activatedRoute.snapshot.paramMap.get('query') || '';
     this.service.listContacts(this.query).subscribe(cs => this.contacts = cs);
     this.service.listProjects(this.query).subscribe(ps => this.projects = ps);
+    this.service.listGuides(this.query).subscribe(gs => this.guides = gs);
   }
 }

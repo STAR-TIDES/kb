@@ -42,7 +42,6 @@ export class ProjectDetailComponent implements OnInit {
         }
       }
 
-
       const query = {
         'id': Array.from(ids)
       };

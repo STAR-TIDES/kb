@@ -227,7 +227,8 @@ export const FAKE_GUIDES: Guide[] = [
         summary: `In [Project Eagle Feather](https://peoplecentered.net/tag/project-eagle-feather/),
             we are working with a _diverse_ array of indigenous Americans to work towards
             __better__ digital capacity!
-            Here's a _cool_ image: ![Some network systems!](https://peoplecentered.net/wp-content/uploads/2020/01/TDVN-640x380.png)`,
+            Here's a _cool_ image:\n\n\n![Some network systems!](https://peoplecentered.net/wp-content/uploads/2020/01/TDVN-640x380.png)
+            And here's some more content. Hello world\n## One header.\n### Another header.\nSome paragraph content.\n- And\n- A\n- List!`,
         engagement: {
             locations: [{ iso31661CountryCode: 840, arbitraryText: 'California' }],
             areasOfInterest: ['Blah'],
@@ -245,9 +246,9 @@ export const FAKE_GUIDES: Guide[] = [
                     { name: 'Meet with local government?', content: '' },
                 ]
             },
-            { content: `Finally, you look into technology.` },
+            { content: `Next, you start to look into technology.` },
             {
-                content: `Do you go with satellite or fixed network?`,
+                content: `Finally, Do you go with satellite or fixed network?`,
                 options: [
                     { name: 'Satellite Internet', content: 'Satellite has good coverage!' },
                     { name: 'Fixed Network', content: 'Can be better for these _reasons_...' },
@@ -259,7 +260,7 @@ export const FAKE_GUIDES: Guide[] = [
         author: '1',
         name: 'How to Make a Sandwich',
         summary: 'You are probably hungry, _right_?',
-        engagement: { locations: [], areasOfInterest: [], focuses: [], backgrounds: [] },
+        engagement: { locations: [], areasOfInterest: ['Cooking', 'Eating', 'Food'], focuses: [], backgrounds: [] },
         guidances: [
             {
                 content: 'First, choose your bread.',

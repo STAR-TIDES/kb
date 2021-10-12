@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Contact } from './data/contact';
 import { KnowledgeBaseService } from './knowledge-base-service';
-import { Project, ProjectStatus } from './data/project';
+import { Project } from './data/project';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Guide } from './data/guide';
@@ -18,39 +18,68 @@ export class HttpKnowledgeBaseService extends KnowledgeBaseService {
   }
 
   createContact(contact: Contact): Observable<Contact> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.post<Contact>(`
+    ${environment.apiEndpoint}/contacts/`, JSON.stringify(contact), this.defaultEditorOptions());
   }
   updateProject(id: string, payload: Project): Observable<Project> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.put<Project>(
+      `${environment.apiEndpoint}/projects/${id}`, JSON.stringify(payload), this.defaultEditorOptions());
   }
   deleteProject(id: string): Observable<{}> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.delete(`${environment.apiEndpoint}/projects/${id}`, this.defaultEditorOptions());
   }
   createProject(project: Project): Observable<Project> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.post<Project>(
+      `${environment.apiEndpoint}/projects/`, JSON.stringify(project), this.defaultEditorOptions());
   }
   getGuide(id: string): Observable<Guide> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.get<Guide>(`${environment.apiEndpoint}/guides/${id}`);
   }
   listGuides(query?: string, pageToken?: string, pageSize?: number): Observable<Guide[]> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.get<Guide[]>(`${environment.apiEndpoint}/guides/`);
   }
   updateGuide(id: string, guide: Guide): Observable<Guide> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.put<Guide>(
+      `${environment.apiEndpoint}/guides/${id}`, JSON.stringify(guide), this.defaultEditorOptions());
   }
   deleteGuide(id: string): Observable<{}> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.delete(`${environment.apiEndpoint}/guides/${id}`, this.defaultEditorOptions());
   }
   createGuide(guide: Guide): Observable<Guide> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.post<Guide>(`${environment.apiEndpoint}/guides/`, JSON.stringify(guide), this.defaultEditorOptions());
+  }
+
+  getContact(id: string): Observable<Contact> {
+    return this.httpClient.get<Contact>(`${environment.apiEndpoint}/contacts/${id}`);
+  }
+
+  listContacts(query = '', pageToken = '', pageSize = 10): Observable<Contact[]> {
+    return this.httpClient.get<Contact[]>(`${environment.apiEndpoint}/contacts/`);
+  }
+
+  updateContact(id: string, contact: Contact): Observable<Contact> {
+    return this.httpClient.put<Contact>(
+      `${environment.apiEndpoint}/contacts/${id}`, JSON.stringify(contact), this.defaultEditorOptions());
+  }
+
+  deleteContact(id: string): Observable<{}> {
+    return this.httpClient.delete(`${environment.apiEndpoint}/contacts/${id}`, this.defaultEditorOptions());
+  }
+
+  getProject(id: string): Observable<Project> {
+    return this.httpClient.get<Project>(`${environment.apiEndpoint}/projects/${id}`);
+  }
+
+  listProjects(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(`${environment.apiEndpoint}/projects/`);
   }
 
   private getEditorCookie() {
-    const cookie = this.document.cookie.split(';').find(c => c.startsWith(this.EDITOR_COOKIE));
+    const cookie = this.document.cookie.split(';').find(c => c.trim().startsWith(this.EDITOR_COOKIE));
     if (!cookie) {
       return null;
     }
-    return cookie.substring((this.EDITOR_COOKIE + '=').length);
+    return cookie.trim().substring((this.EDITOR_COOKIE + '=').length).trim();
   }
 
   private authHeader() {
@@ -63,30 +92,10 @@ export class HttpKnowledgeBaseService extends KnowledgeBaseService {
     };
   }
 
-  getContact(id: string): Observable<Contact> {
-    return this.httpClient.get<Contact>(`${environment.apiEndpoint}/contacts/${id}`);
-  }
-
-  listContacts(query = '', pageToken = '', pageSize = 10): Observable<Contact[]> {
-    return this.httpClient.get<Contact[]>(`${environment.apiEndpoint}/contacts/`);
-  }
-
-  updateContact(id: string, contact: Contact): Observable<Contact> {
-    return this.httpClient.put<Contact>(`${environment.apiEndpoint}/contacts/${id}`, JSON.stringify(contact), {
+  private defaultEditorOptions() {
+    return {
       headers: this.authHeader(),
       withCredentials: true,
-    });
-  }
-
-  deleteContact(id: string): Observable<{}> {
-    return this.httpClient.delete(`${environment.apiEndpoint}/contacts/${id}`).pipe(() => of({}));
-  }
-
-  getProject(id: string): Observable<Project> {
-    return this.httpClient.get<Project>(`${environment.apiEndpoint}/projects/${id}`);
-  }
-
-  listProjects(query = '', pageToken = '', pageSize = 10): Observable<Project[]> {
-    return this.httpClient.get<Project[]>(`${environment.apiEndpoint}/projects/`);
+    };
   }
 }

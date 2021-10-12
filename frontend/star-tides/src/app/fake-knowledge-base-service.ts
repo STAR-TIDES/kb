@@ -4,6 +4,7 @@ import { Availability } from "./data/availability";
 import { Contact } from "./data/contact";
 import { Guide } from "./data/guide";
 import { Project, ProjectStatus } from "./data/project";
+import { FakeActivatedRouteProvider } from "./fake-activated-route";
 import { KnowledgeBaseService } from "./knowledge-base-service";
 
 @Injectable({
@@ -22,8 +23,15 @@ export class FakeKnowledgeBaseService extends KnowledgeBaseService {
         return fake;
     }
 
+    // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values.
+    private getRandomInt(min = 5, max = 5000) {
+        const _min = Math.ceil(min);
+        const _max = Math.floor(max);
+        return Math.floor(Math.random() * (_max - _min + 1) + _min);
+    }
+
     private newUUID() {
-        return Math.random().toString();
+        return this.getRandomInt().toString();
     }
 
     createContact(contact: Contact): Observable<Contact> {

@@ -29,6 +29,10 @@
             </mat-card>
         </ng-template>
     </div>
+    <div>
+        <a mat-raised-button color="primary" routerLink="/guides/new">Create New Guide</a>
+        <a mat-raised-button color="accent" routerLink="/guides/{{guide.id}}/edit">Update/Delete</a>
+    </div>
 </div>
 <ng-template #noGuide>
     <h1 class='error'>Could not find the given Guide.</h1>

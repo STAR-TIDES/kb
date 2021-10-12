@@ -64,6 +64,7 @@ import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { KnowledgeBaseService } from './knowledge-base-service';
 import { FakeKnowledgeBaseService } from './fake-knowledge-base-service';
 import { MarkdownPipe } from './markdown.pipe';
+import { GuideEditComponent } from './guide-edit/guide-edit.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { MarkdownPipe } from './markdown.pipe';
     SearchResultsComponent,
     ContactEditComponent,
     ProjectEditComponent,
-    MarkdownPipe
+    MarkdownPipe,
+    GuideEditComponent
   ],
   imports: [
     A11yModule,

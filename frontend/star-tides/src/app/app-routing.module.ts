@@ -4,6 +4,7 @@ import { ContactDetailComponent } from './contact-detail/contact-detail.componen
 import { ContactEditComponent } from './contact-edit/contact-edit.component';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { GuideDetailComponent } from './guide-detail/guide-detail.component';
+import { GuideEditComponent } from './guide-edit/guide-edit.component';
 import { GuideListComponent } from './guide-list/guide-list.component';
 import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -22,8 +23,10 @@ export const ALL_APP_ROUTES: Routes = [
   { path: 'projects/:id/edit', component: ProjectEditComponent },
   { path: 'projects/:id', component: ProjectDetailComponent },
   { path: 'projects', component: ProjectListComponent },
-  { path: 'guides', component: GuideListComponent },
+  { path: 'guides/new', component: GuideEditComponent },
   { path: 'guides/:id', component: GuideDetailComponent },
+  { path: 'guides/:id/edit', component: GuideEditComponent },
+  { path: 'guides', component: GuideListComponent },
   { path: 'query', component: SearchResultsComponent },
   { path: 'query/:query', component: SearchResultsComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

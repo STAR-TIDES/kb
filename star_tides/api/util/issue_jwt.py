@@ -1,20 +1,26 @@
 ''' star_tides.api.util.issue_jwt
 '''
-from datetime import datetime, timedelta, timezone
 import jwt
+from bson.objectid import ObjectId
+from datetime import datetime, timedelta, timezone
 from flask import current_app
 
 
-def create_jwt(email):
-    now = datetime.now(timezone.utc)
+def create_jwt(user_id: ObjectId) -> tuple:
+    ''' Creates a jwt.
 
+        @param user_id: The id element of the user object. `user.id`.
+
+        returns
+    '''
+    now = datetime.now(timezone.utc)
     jwt_token = jwt.encode(
         {
             'iss': 'star-tides',
             'exp': now + timedelta(hours=1),
             'iat': now,
             'claims': {
-                'email': email
+                'id': str(user_id)
             }
         },
         current_app.config['SECRET_KEY']
@@ -35,4 +41,4 @@ def create_jwt(email):
 
 
 def get_email_from_jwt(decoded_jwt: dict) -> str:
-    return decoded_jwt['claims']['email']
+    return decoded_jwt['claims']['id']

@@ -1,6 +1,7 @@
 ''' star_tides.core.actions.base_action
 '''
 from abc import ABCMeta, abstractmethod
+from typing import Any, Union
 
 
 class Action(metaclass=ABCMeta):
@@ -21,10 +22,7 @@ class Action(metaclass=ABCMeta):
         return self.run()
 
     @abstractmethod
-    def run(self):
+    def run(self) -> Union[Any, None]:
         ''' Must be implemented on every child class.
         '''
         pass
-
-    def get_caller_user_id(self):
-        return 'some-user' # FIXME

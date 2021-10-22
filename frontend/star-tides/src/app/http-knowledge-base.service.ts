@@ -13,7 +13,7 @@ import { Guide } from './data/guide';
 export class HttpKnowledgeBaseService extends KnowledgeBaseService {
   private readonly EDITOR_COOKIE = 'StarTidesEditor';
 
-  constructor(private httpClient: HttpClient, private document: Document) {
+  constructor(private httpClient: HttpClient) {
     super();
   }
 
@@ -75,7 +75,11 @@ export class HttpKnowledgeBaseService extends KnowledgeBaseService {
   }
 
   private getEditorCookie() {
-    const cookie = this.document.cookie.split(';').find(c => c.trim().startsWith(this.EDITOR_COOKIE));
+    if (!document) {
+      throw new Error('document is not present');
+    }
+
+    const cookie = document.cookie.split(';').find(c => c.trim().startsWith(this.EDITOR_COOKIE));
     if (!cookie) {
       return null;
     }

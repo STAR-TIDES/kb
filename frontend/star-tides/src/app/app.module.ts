@@ -65,7 +65,8 @@ import { KnowledgeBaseService } from './knowledge-base-service';
 import { FakeKnowledgeBaseService } from './fake-knowledge-base-service';
 import { MarkdownPipe } from './markdown.pipe';
 import { GuideEditComponent } from './guide-edit/guide-edit.component';
-
+import { HttpKnowledgeBaseService } from './http-knowledge-base.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { GuideEditComponent } from './guide-edit/guide-edit.component';
     DragDropModule,
     FlexLayoutModule,
     FormsModule,
+    HttpClientModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -141,7 +143,18 @@ import { GuideEditComponent } from './guide-edit/guide-edit.component';
     ReactiveFormsModule,
     ScrollingModule,
   ],
-  providers: [{ provide: KnowledgeBaseService, useFactory: () => FakeKnowledgeBaseService.createWithFakeData() }],
+  providers: [
+    {
+      provide: KnowledgeBaseService,
+      useFactory: () => FakeKnowledgeBaseService.createWithFakeData(),
+      // To enable HTTP communication, uncomment the line below and comment out the line above.
+      // useClass: HttpKnowledgeBaseService,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// To keep the imports around.
+const unusedHttpService = HttpKnowledgeBaseService;
+const unusedFakeService = FakeKnowledgeBaseService;

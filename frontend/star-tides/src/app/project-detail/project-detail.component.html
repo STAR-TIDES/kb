@@ -1,0 +1,38 @@
+<div *ngIf="project; else elseBlock">
+    <h1>{{project.name}}</h1>
+    <h2>Contacts</h2>
+    <li *ngFor="let contact of project.contacts">
+        <a *ngIf="contact.id; else noContactId" routerLink="/contacts/{{contact.id}}">{{contact.name}}</a>
+        <ng-template #noContactId>{{contact.name}}</ng-template>
+    </li>
+    <h2>Location: {{project.location.arbitraryText}}</h2>
+    <h2>Status: {{project.status}}</h2>
+    <h2>Summary</h2>
+    <p>{{project.summary}}</p>
+    <div *ngIf="project.solutionCosts">
+        <h2>Solution costs</h2>
+        <p>{{project.solutionCosts}}</p>
+    </div>
+    <h2>Notes</h2>
+    <p>{{project.notes}}</p>
+    <h2>Updates</h2>
+    <div *ngFor="let update of project.updates, index as i">
+        <h3>Project Update {{i+1}}</h3>
+        <p>{{update.content}}</p>
+        <p>By <a routerLink='/contacts/{{update.editorContactId}}'>{{getContactName(update.editorContactId)}}</a>
+            <span *ngIf="update.requestorContactId"> on
+                behalf
+                of
+                <a
+                    routerLink='/contacts/{{update.requestorContactId}}'>{{getContactName(update.requestorContactId)}}</a></span>
+            on {{update.timestamp}}
+        </p>
+    </div>
+    <div>
+        <a mat-raised-button color="primary" routerLink="/projects/new">Create New Project</a>
+        <a mat-raised-button color="accent" routerLink="/projects/{{project.id}}/edit">Update/Delete</a>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <h1 class='error'>Could not find the given Project.</h1>
+</ng-template>

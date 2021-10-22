@@ -1,0 +1,7 @@
+<h1>Guides</h1>
+<ng-template ngFor let-guide [ngForOf]="guides">
+    <h2><a routerLink="/guides/{{guide.id}}">{{guide.name}}</a></h2>
+    <h3>By <a routerLink="/contacts/{{guide.author}}">{{getAuthorName(guide.author)}}</a></h3>
+    <span>Areas of interest: {{guide.engagement.areasOfInterest.join(', ')}}</span>
+    <hr>
+</ng-template>

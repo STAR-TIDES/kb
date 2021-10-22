@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,18 +8,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'star-tides';
-  name = 'World';
+  now = new Date();
 
-  constructor(private route: ActivatedRoute) {
-    console.log('reporting for duty!');
-  }
-
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (!!params['name']) {
-        this.name = params['name'];
-      }
-    });
+  drawerClick(drawer: MatDrawer) {
+    console.log(drawer);
+    drawer.toggle();
   }
 }

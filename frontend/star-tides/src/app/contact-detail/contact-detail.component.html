@@ -1,0 +1,35 @@
+<div *ngIf="contact; else elseBlock">
+    <h1>{{contact.name}}</h1>
+    <h2>Location: {{contact.location.arbitraryText}}</h2>
+    <h2>Job Title: {{contact.jobTitle}}</h2>
+    <h2>Availability: {{contact.availability}}</h2>
+    <h2 *ngIf="contact.email">Email: <a href="mailto:{{contact.email}}">{{contact.email}}</a></h2>
+    <h2 *ngIf="contact.websiteURL"><a href="{{contact.websiteURL}}">Website</a></h2>
+    <h2 *ngIf="contact.phoneNumber">Phone number: {{contact.phoneNumber}}</h2>
+    <h2>Languages:</h2>
+    <li *ngFor="let l of contact.languages">{{l}}</li>
+    <h2>Statuses:</h2>
+    <li *ngFor="let s of contact.statuses">{{s}}</li>
+    <div>
+        <h2>Engagement</h2>
+        <h3>Locations</h3>
+        <li *ngFor="let l of contact.engagement.locations">{{l.arbitraryText}}</li>
+        <p></p>
+        <h3>Areas of Interest</h3>
+        <li *ngFor="let a of contact.engagement.areasOfInterest">{{a}}</li>
+        <p></p>
+        <h3>Focuses</h3>
+        <li *ngFor="let f of contact.engagement.focuses">{{f}}</li>
+        <p></p>
+        <h3>Backgrounds</h3>
+        <li *ngFor="let b of contact.engagement.backgrounds">{{b}}</li>
+    </div>
+    <p></p>
+    <div>
+        <a mat-raised-button color="primary" routerLink="/contacts/new">Create New Contact</a>
+        <a mat-raised-button color="accent" routerLink="/contacts/{{contact.id}}/edit">Update/Delete Contact</a>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <h1 class='error'>Could not find the given Contact.</h1>
+</ng-template>

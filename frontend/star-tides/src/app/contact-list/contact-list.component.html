@@ -1,0 +1,7 @@
+<h1>Contacts</h1>
+<ng-template ngFor let-contact [ngForOf]="contacts">
+    <h2><a routerLink="/contacts/{{contact.id}}">{{contact.name}}</a></h2>
+    <span>{{contact.location.arbitraryText}} | {{contact.jobTitle}} | {{contact.engagement.areasOfInterest}} |
+        {{contact.availability}}</span>
+    <hr>
+</ng-template>

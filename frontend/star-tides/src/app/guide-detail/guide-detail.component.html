@@ -1,0 +1,39 @@
+<div *ngIf="guide; else noGuide">
+    <h1>{{guide.name}}</h1>
+    <h2 *ngIf='author'>By <a routerLink="/contacts/{{guide.author}}">{{author.name}}</a></h2>
+    <span>Areas of interest: {{guide.engagement.areasOfInterest.join(', ')}} | Focuses:
+        {{guide.engagement.focuses.join(', ')}}</span>
+    <p></p>
+    <h3>Related Projects: {{guide.relatedProjects?.join(', ')}}</h3>
+    <h3>Relevant Contacts: {{guide.relevantContacts?.join(', ')}}</h3>
+    <div class='summary-container'>
+        <p class='summary' [innerHTML]='guide.summary | markdown'></p>
+    </div>
+    <div class='checklist-container'>
+        <h2>Checklist</h2>
+        <!-- TODO(ljr): It might be better to use https://material.angular.io/components/stepper/overview? -->
+        <ng-template ngFor let-guidance [ngForOf]="guide.guidances" let-i="index">
+            <mat-card class='guidance-card'>
+                <mat-card-title-group>
+                    <mat-card-subtitle>Step {{i+1}}</mat-card-subtitle>
+                    <mat-card-title [innerHTML]='guidance.content | markdown'></mat-card-title>
+                </mat-card-title-group>
+                <mat-card-content>
+                    <div *ngFor="let option of guidance.options" class='guidance-option-container'>
+                        <section>
+                            <h4>{{option.name}}</h4>
+                            <p [innerHTML]="option.content | markdown"></p>
+                        </section>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </ng-template>
+    </div>
+    <div>
+        <a mat-raised-button color="primary" routerLink="/guides/new">Create New Guide</a>
+        <a mat-raised-button color="accent" routerLink="/guides/{{guide.id}}/edit">Update/Delete</a>
+    </div>
+</div>
+<ng-template #noGuide>
+    <h1 class='error'>Could not find the given Guide.</h1>
+</ng-template>

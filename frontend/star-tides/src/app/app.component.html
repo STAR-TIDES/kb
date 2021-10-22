@@ -1,26 +1,73 @@
-<div>
-  <div class='title' fxLayout='column'>
-    <h1>Welcome to the {{title}} app!</h1>
+<!--This header/footer layout comes from https://stackoverflow.com/a/56422126. -->
+<div class='root' fxLayout='column' fxFlexFill>
+  <div class='header-container'>
+    <mat-toolbar color="primary" role="heading">
+      <button mat-icon-button aria-label="Menu icon" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span><a routerLink='/home' class='header-home-link'>STAR-TIDES Knowledge Base</a></span>
+    </mat-toolbar>
   </div>
-  <div class='greeting' fxLayout='column'>
-    <div>
-      <h2>Aloha {{name}}!</h2>
-    </div>
-    <div fxLayout='row'>
-      <div fxFlex='50'>BIG</div>
-      <div fxFlex='25'>small</div>
-      <div fxFlex='25'>also small</div>
-    </div>
+  <div class="main-container" fxFlex>
+    <mat-drawer-container>
+      <mat-drawer #drawer mode="side" class="side-menu">
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Home icon">home</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/home'>Home</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Contacts icon">contacts</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/contacts'>Contacts</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Projects icon">folder_special</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/projects'>Projects</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Guides icon">checklist</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/guides'>Guides</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Search icon">search</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/query'>Search</a></span>
+          </div>
+        </div>
+        <div class='menu-item'>
+          <div>
+            <mat-icon aria-hidden="false" aria-label="Info icon">info</mat-icon>
+          </div>
+          <div>
+            <span><a routerLink='/about'>About</a></span>
+          </div>
+        </div>
+      </mat-drawer>
+      <div class='main-content'>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-container>
   </div>
-  <div fxLayout=row>
-    <div fxFlex='33'></div>
-    <div fxFlex='33' fxLayoutAlign='center'>
-      <button mat-raised-button color='primary'>Does Nothing!</button>
-    </div>
-    <div fxFlex='33' class='fill-blue'><pre>blue background!</pre></div>
+  <div class='footer-container'>
+    <mat-toolbar color="primary" role="footer" class='footer'>
+      <span>© STAR-TIDES, 2021-{{ now | date: 'YYYY' }}</span>
+    </mat-toolbar>
   </div>
-  <div class='column'>
-    <h3>Below you will find router-based content:</h3>
-  </div>
-  <router-outlet></router-outlet>
 </div>

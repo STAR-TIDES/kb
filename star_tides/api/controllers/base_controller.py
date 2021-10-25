@@ -114,11 +114,13 @@ class Controller(metaclass=ABCMeta):
 
         header = request.headers.get('Authorization')
         if header is None:
-            raise AuthenticationError('No Authorization header present.')
+            raise AuthenticationError(
+                response_msg='No Authorization header present.')
         try:
             token = header.split(' ')[1]
         except IndexError as e:
-            raise AuthenticationError('Invalid authorization header.') from e
+            raise AuthenticationError(
+                response_msg='Invalid authorization header.') from e
 
         try:
             decoded_jwt = jwt.decode(
@@ -126,13 +128,18 @@ class Controller(metaclass=ABCMeta):
                 key=current_app.config['SECRET_KEY']
             )
         except jwt.exceptions.InvalidSignatureError as e:
-            raise AuthenticationError('Signature is invalid.') from e
+            raise AuthenticationError(
+                response_msg='Signature is invalid.') from e
         except jwt.exceptions.ExpiredSignatureError as e:
             raise AuthenticationError(
-                'Token has expired. Please log in again.') from e
+                response_msg='Token has expired. Please log in again.') from e
 
         return decoded_jwt
 
     @staticmethod
     def get_caller_user_email():
         return get_email_from_jwt(Controller.decode_jwt())
+
+    @staticmethod
+    def get_query_params():
+        return request.args

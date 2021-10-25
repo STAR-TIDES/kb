@@ -39,13 +39,13 @@ class CreateUserController(Controller):
         email = body.get('email')
         password = body.get('password')
 
-        return CreateUserAction(
+        new_user = CreateUserAction(
             first_name,
             last_name,
             email,
             password
         ).execute()
-
+        return new_user
 
 class GoogleSignInController(Controller):
     ''' Controller to handle Google SSO login.

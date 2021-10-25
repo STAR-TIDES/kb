@@ -3,11 +3,14 @@
 Contains routes pertaining to authentication.
 
 '''
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    # render_template
+)
 from star_tides.api.controllers.auth_controller import (
     # Uncomment when basic auth is added again.
     LoginController,
-    # CreateUserController,
+    CreateUserController,
     GoogleSignInController
 )
 
@@ -20,15 +23,15 @@ def login():
     return response
 
 
-# @auth.route('/new/user', methods=['POST'])
-# def create_user():
-#     response = CreateUserController().execute()
-#     return build_response(response)
+@auth.route('/new/user', methods=['POST'])
+def create_user():
+    response = CreateUserController().execute()
+    return response
 
 
-@auth.route('/gsignin', methods=['GET'])
-def gsignin():
-    return render_template('google_signin.html')
+# @auth.route('/gsignin', methods=['GET'])
+# def gsignin():
+#     return render_template('google_signin.html')
 
 
 @auth.route('/sso/google', methods=['POST'])
